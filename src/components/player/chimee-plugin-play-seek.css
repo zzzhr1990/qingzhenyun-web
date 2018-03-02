@@ -1,0 +1,14 @@
+.chimee-play-seek {
+  padding: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  width: 150px;
+}
+.last-play-seek-time {
+}
+
+.chimee-play-seek .jump {
+  font-weight: 900;
+  padding: 0 3px;
+  color: #ff5655;
+  cursor: pointer;
+}
