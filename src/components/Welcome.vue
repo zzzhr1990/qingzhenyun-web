@@ -44,11 +44,7 @@ export default {
       // username: 'guest',
       // email: '',
       // password: '12345678',
-      loading: false,
-      loginField: {
-        value: '',
-        password: ''
-      }
+      loading: false
     }
   },
   computed: {
@@ -58,11 +54,6 @@ export default {
     }
   },
   methods: {
-    goToHome () {
-      this.$nextTick(() => {
-        this.$router.replace('home')
-      })
-    },
     login () {
       this.$router.push('/login')
     },

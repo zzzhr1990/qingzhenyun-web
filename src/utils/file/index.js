@@ -1,5 +1,3 @@
-// import Block from './Block'
-import Vue from 'vue'
 import Crypto from './Crypto'
 import Sha1 from './sha1'
 import api from '@/api'
@@ -152,21 +150,17 @@ class File {
 
   getToken () {
     if (this.tokenInfo) {
-      return Vue.Promise.resolve(this)
+      return Promise.resolve(this)
     }
-    return new Vue.Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       api.store.token({
         name: this.name,
         parent: this.puid,
         hash: this.sha1
       })
       .then(res => {
-        if (res.body.success) {
-          this.tokenInfo = res.body.result
-          resolve(this)
-        } else {
-          reject(res)
-        }
+        this.tokenInfo = res.result
+        resolve(this)
       })
       .catch(res => {
         reject(res)
@@ -194,7 +188,7 @@ class File {
   }
 
   loadNext (block) {
-    return new Vue.Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       var fr = new FileReader()
       fr.onload = function (e) {
         var sha1 = Sha1.create()
@@ -213,13 +207,13 @@ class File {
 
   getHash () {
     if (this.sha1) {
-      return Vue.Promise.resolve(this)
+      return Promise.resolve(this)
     }
     let tasks = []
     for (let i = 0; i < this.totalBlocks; i++) {
       tasks.push(this.loadNext(this.getBlock(i)))
     }
-    return Vue.Promise.all(tasks)
+    return Promise.all(tasks)
       .then(hashs => {
         var perfex = Math.log2(this.blockSize)
         var isSmallFile = hashs.length === 1

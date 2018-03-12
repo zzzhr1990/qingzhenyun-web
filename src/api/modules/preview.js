@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import axios from 'axios'
 
 export default {
   /**
@@ -9,6 +9,6 @@ export default {
    * @return {Promise}
    */
   video (opts) {
-    return Vue.http.post('/v1/preview/video', opts)
+    return axios.post('/v1/preview/video', opts)
   }
 }

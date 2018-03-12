@@ -15,7 +15,7 @@ export default {
         .dispatch('offline/page', options)
         .then(res => {
           this.$store.commit(`offline/${types.OFFLINE_PATH_SUCCESS}`)
-          this.$store.commit(`offline/${types.OFFLINE_PATH_SET_PAGE}`, res.body.result)
+          this.$store.commit(`offline/${types.OFFLINE_PATH_SET_PAGE}`, res.result)
         })
         .catch(e => {
           this.$notify(Message.COMMON(e))

@@ -72,10 +72,6 @@ export default {
   mixins: [myMixins, loginMixins],
   data () {
     return {
-      loginField: {
-        value: '',
-        password: ''
-      },
       emailField: {
         name: '',
         email: '',
@@ -169,27 +165,17 @@ export default {
     navRegister () {
       this.showLoginBox = false
     },
-    goToHome () {
-      this.$nextTick(() => {
-        this.$router.replace('home')
-      })
-    },
     register (field) {
       if (this.isRegisting) {
         this.$message(Message.WAITING)
         return
       }
       this.$store.dispatch('login/register', field)
-        .then(res => {
-          const result = res.body
-          if (result.success) {
-            this.$message(Message.REGIST_SUCCESS)
-            this.$store.commit('login/' + types.LOGIN_SET_UINFO, result.result)
-            this.goToHome()
-          } else {
-            this.$message(Message.COMMON_WARNING(result))
-          }
+        .then(result => {
+          this.$message(Message.REGIST_SUCCESS)
+          this.$store.commit('login/' + types.LOGIN_SET_UINFO, result.result)
           this.$store.commit('login/' + types.SIGNIN_SUCCESS)
+          this.goToHome()
         })
         .catch((e) => {
           this.catchErrorHandler(e, 'login/' + types.SIGNIN_FAILURE)

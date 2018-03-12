@@ -63,11 +63,8 @@ export default {
           type: 1,
           pageSize: 999
         })
-        .then((res) => {
-          const result = res.body
-          if (result.success) {
-            resolve(result.result.list)
-          }
+        .then((result) => {
+          resolve(result.result.list)
         })
     },
 

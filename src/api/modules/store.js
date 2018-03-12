@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import axios from 'axios'
 
 export default {
   /**
@@ -10,6 +10,6 @@ export default {
    * @return {Promise}
    */
   token (opts) {
-    return Vue.http.post('/v1/store/token', opts)
+    return axios.post('/v1/store/token', opts)
   }
 }

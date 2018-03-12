@@ -1,7 +1,6 @@
-import Vue from 'vue'
+import axios from 'axios'
 
 export default {
-
   /**
    * 获取页信息
    * @param  {Object} opts 参数
@@ -11,7 +10,7 @@ export default {
    * @return {Promise}
    */
   page (opts) {
-    return Vue.http.post('/v1/files/page', opts)
+    return axios.post('/v1/files/page', opts)
   },
 
   /**
@@ -22,7 +21,7 @@ export default {
    * @return {Promise}
    */
   move (opts) {
-    return Vue.http.post('/v1/files/move', opts)
+    return axios.post('/v1/files/move', opts)
   },
 
   /**
@@ -32,7 +31,7 @@ export default {
    * @return {Promise}
    */
   recycle (opts) {
-    return Vue.http.post('/v1/files/recycle', opts)
+    return axios.post('/v1/files/recycle', opts)
   },
 
   /**
@@ -43,7 +42,7 @@ export default {
    * @return {Promise}
    */
   create (opts) {
-    return Vue.http.post('/v1/files/createDirectory', opts)
+    return axios.post('/v1/files/createDirectory', opts)
   },
 
   /**
@@ -54,7 +53,7 @@ export default {
    * @return {Promise}
    */
   rename (opts) {
-    return Vue.http.post('/v1/files/rename', opts)
+    return axios.post('/v1/files/rename', opts)
   },
 
   /**
@@ -64,7 +63,7 @@ export default {
    * @return {Promise}
    */
   get (opts) {
-    return Vue.http.post('/v1/files/get', opts)
+    return axios.post('/v1/files/get', opts)
   },
 
   /**
@@ -72,7 +71,7 @@ export default {
    * @return {[type]} [description]
    */
   list () {
-    return Vue.http.post('/v1/files/list')
+    return axios.post('/v1/files/list')
   },
 
   /**
@@ -83,6 +82,6 @@ export default {
    * @return {Promise}
    */
   download (opts) {
-    return Vue.http.post('/v1/files/download', opts)
+    return axios.post('/v1/files/download', opts)
   }
 }

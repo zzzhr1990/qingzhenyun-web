@@ -1,7 +1,6 @@
 import * as types from '@/store/mutation-types'
 import Notify from '@/components/common/message/notify'
 import Message from '@/components/common/message/message'
-import Vue from 'vue'
 import DialogShow from '@/components/dirSelectDialog'
 export default {
   methods: {
@@ -18,14 +17,8 @@ export default {
       this
         .$store
         .dispatch(`files/page`, opts)
-        .then((res) => {
-          const result = res.body
-          if (result.success) {
-            this.$store.commit(`files/${types.PATH_SET_PAGE}`, result.result)
-          } else {
-            this.$message(Message.COMMON_WARNING(result))
-          }
-          this.$store.commit(`files/${types.PATH_SUCCESS}`, result.result.page)
+        .then((result) => {
+          this.$store.commit(`files/${types.PATH_SUCCESS}`, result.result)
         })
         .catch((res) => {
           this.catchErrorHandler(res, `files/${types.PATH_FAILURE}`)
@@ -44,7 +37,7 @@ export default {
           for (const selected of d) {
             promiselist.push(this.moveone(selected, selectDir))
           }
-          return Vue.Promise.all(promiselist)
+          return Promise.all(promiselist)
         })
         .then(done => {
           this.pageReFresh()
@@ -52,51 +45,33 @@ export default {
     },
 
     moveone (data, selectDir = {}) {
-      this
+      return this
         .$store
         .dispatch(`files/move`, {
           uuid: data.uuid,
           parent: selectDir.uuid || ''
         })
-        .then((res) => {
-          const result = res.body
-          if (result.success) {
-            this.$notify(Notify.FILE_MOVE_SUCCESS(data.name))
-            this.$store.commit(`files/${types.PATH_MOVE_DONE}`, data)
-            return 1
-          } else {
-            this.$notify(Notify.FILE_MOVE_FAILED(data.name, result.code || result.message))
-            this.$store.commit(`files/${types.PATH_MOVE_DONE}`)
-            return 0
-          }
+        .then((result) => {
+          this.$notify(Notify.FILE_MOVE_SUCCESS(data.name))
+          this.$store.commit(`files/${types.PATH_MOVE_DONE}`, data)
         })
         .catch((res) => {
           const result = Message.COMMON(res)
           this.$notify(Notify.FILE_MOVE_FAILED(data.name, result.code || result.message))
           this.$store.commit(`files/${types.PATH_MOVE_DONE}`)
-          return 0
         })
     },
 
     deleteone (data) {
       return this.$store.dispatch(`files/delete`, {uuid: data.uuid})
-        .then((res) => {
-          const result = res.body
-          if (result.success) {
-            this.$notify(Notify.FILE_DELETE_SUCCESS(data.name))
-            this.$store.commit(`files/${types.PATH_DELETE_SUCCESS}`, data)
-            return 1
-          } else {
-            this.$notify(Notify.FILE_DELETE_ERROR(data.name, result.code || result.message))
-            this.$store.commit(`files/${types.PATH_DELETE_FAILURE}`)
-            return 0
-          }
+        .then((result) => {
+          this.$notify(Notify.FILE_DELETE_SUCCESS(data.name))
+          this.$store.commit(`files/${types.PATH_DELETE_SUCCESS}`, data)
         })
         .catch((res) => {
           const result = Message.COMMON(res)
           this.$notify(Notify.FILE_DELETE_ERROR(data.name, result.code || result.message))
           this.$store.commit(`files/${types.PATH_DELETE_FAILURE}`)
-          return 0
         })
     },
 
@@ -120,23 +95,14 @@ export default {
           uuid: data.uuid,
           name: value
         })
-        .then((res) => {
-          const result = res.body
-          if (result.success) {
-            this.$notify(Notify.FILE_MODIFY_SUCCESS(data.name))
-            this.$store.commit(`files/${types.PATH_RENAME_SUCCESS}`, result.result)
-            return 1
-          } else {
-            this.$notify()
-            this.$store.commit(`files/${types.PATH_RENAME_FAILURE}`)
-            return 0
-          }
+        .then((result) => {
+          this.$notify(Notify.FILE_MODIFY_SUCCESS(data.name))
+          this.$store.commit(`files/${types.PATH_RENAME_SUCCESS}`, result.result)
         })
         .catch((res) => {
           const result = Message.COMMON(res)
           this.$notify(Notify.FILE_MODIFY_FAILED(data.name, result.code || result.message))
           this.$store.commit(`files/${types.PATH_RENAME_FAILURE}`)
-          return 0
         })
     },
     getNameExt (name = '') {
@@ -165,7 +131,7 @@ export default {
             promiselist.push(this.renameone(selected, ne.name + ('_' + num++) + ne.ext))
           }
         }
-        return Vue.Promise.all(promiselist)
+        return Promise.all(promiselist)
       })
     }
   }

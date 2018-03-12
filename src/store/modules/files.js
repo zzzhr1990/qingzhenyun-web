@@ -79,10 +79,6 @@ const mutations = {
     state.requestStatus = 'waiting'
   },
 
-  [types.PATH_SUCCESS] (state) {
-    state.requestStatus = 'done'
-  },
-
   [types.PATH_MOVE_REQUEST] (state) {
     state.requestStatus = 'waiting'
   },
@@ -107,8 +103,9 @@ const mutations = {
     state.requestStatus = 'done'
   },
 
-  [types.PATH_SET_PAGE] (state, result) {
+  [types.PATH_SUCCESS] (state, result) {
     state.result = result
+    state.requestStatus = 'done'
   },
 
   [types.PATH_CREATE_REQUEST] (state) {

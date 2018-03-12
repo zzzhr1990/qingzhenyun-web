@@ -3,13 +3,13 @@
     <el-aside width="100px" class="aside">
       <layoutAside></layoutAside>
     </el-aside>
-    <el-container>
+    <el-container class="aContainer">
       <el-header class="header">
         <layoutNavHeader :defaultnav="'1'"></layoutNavHeader>
       </el-header>
       <el-main class="main">
-        <el-container>
-          <el-header class="mainheader" height="80px">
+        <el-container class="listContainer">
+          <el-header class="mainheader" height="120px">
             <layoutControlHeader></layoutControlHeader>
           </el-header>
           <el-main class="main-content">
@@ -63,12 +63,24 @@ export default {
   height: 100%;
 }
 
+.listContainer,
+.aContainer {
+  height: 100%;
+}
+
 .main {
   background: #FFFFFF;
   border-radius: 7px;
+  height: 100%;
+  padding:0;
 }
-.main-content,
-.mainheader {
+.main-content {
+  height: 100%;
+}
+.main-content {
   padding: 0;
+}
+.mainheader {
+  padding: 20px;
 }
 </style>

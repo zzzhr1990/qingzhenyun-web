@@ -1,4 +1,5 @@
-import Vue from 'vue'
+import axios from 'axios'
+
 export default {
   /**
    * [login description]
@@ -7,15 +8,7 @@ export default {
    * @return {Promise}
    */
   login (opts) {
-    return Vue.http.post('/v1/user/login', opts)
-  },
-
-  /**
-   * [logout description]
-   * @return {Promise}
-   */
-  logout () {
-    return Vue.http.get('/v1/user/logout')
+    return axios.post('/v1/user/login', opts)
   },
 
   /**
@@ -32,36 +25,6 @@ export default {
    * @return {Promise}
    */
   register (opts) {
-    return Vue.http.post('/v1/user/register', opts)
-  },
-
-  info () {
-    return Vue.http.get('/v1/user/info')
-  },
-
-  captcha (opts) {
-    return Vue.http.post('/v1/user/pc_get_captcha', opts)
-  },
-
-  validateCaptcha (opts) {
-    return Vue.http.post('/v1/user/pc_validate', opts)
-  },
-
-  /**
-   * 获取指定用户信息，username, json
-   * @param  {[type]} opts [description]
-   * @return {[type]}      [description]
-   */
-  profile (opts) {
-    return Vue.http.post('/v1/user/profile', opts)
-  },
-
-  /**
-   * 修改密码，"new_password", "old_password"， json
-   * @param  {[type]} opts [description]
-   * @return {[type]}      [description]
-   */
-  changePassword (opts) {
-    return Vue.http.post('/v1/user/change_password', opts)
+    return axios.post('/v1/user/register', opts)
   }
 }

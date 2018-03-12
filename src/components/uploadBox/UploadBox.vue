@@ -24,7 +24,7 @@
 
 <script>
 import WUFile from '@/utils/file'
-import Vue from 'vue'
+import axios from 'axios'
 import * as types from '@/store/mutation-types'
 import fileMixns from '@/components/common/mixins/file'
 import Message from '@/components/common/message/message'
@@ -103,7 +103,7 @@ export default {
         return
       }
       if (!this.Q) {
-        this.Q = Vue.Promise.resolve()
+        this.Q = Promise.resolve()
       }
       this.Q = this.Q.then(() => {
         if (this.uploadQueue.length < this.uploadConfig.concurrency) {
@@ -130,14 +130,14 @@ export default {
         .getHash()
         .then(() => {
           if (file.isCancel()) {
-            return Vue.Promise.reject()
+            return Promise.reject()
           }
           file.setStatus(WUFile.STATUS.PREPARING)
           return file.getToken()
         })
         .then(() => {
           if (file.isCancel()) {
-            return Vue.Promise.reject()
+            return Promise.reject()
           }
           if (file.isExisted()) {
             file.setStatus(WUFile.STATUS.DONE)
@@ -178,13 +178,13 @@ export default {
         return
       }
       let uploadInfo = file.getServerInfo()
-      Vue.Promise
+      Promise
         .resolve(file)
         .then((file) => {
           if (file.isCancel()) {
-            return Vue.Promise.reject()
+            return Promise.reject()
           }
-          return this.$http.post(
+          return axios.post(
             uploadInfo.url,
             file.slice(uploadInfo.chunk.startByte, uploadInfo.chunk.endByte),
             {
@@ -203,15 +203,15 @@ export default {
         })
         .then((res) => {
           if (file.isCancel()) {
-            return Vue.Promise.reject()
+            return Promise.reject()
           }
-          if (res.body.code) {
-            return Vue.Promise.reject()
+          if (res.code) {
+            return Promise.reject()
           }
-          file.setCtx(res.body.ctx, uploadInfo.chunk)
+          file.setCtx(res.ctx, uploadInfo.chunk)
           if (uploadInfo.chunk.isFileEnd) {
             const creatServer = file.getCreatFileServerInfo()
-            return this.$http.post(
+            return axios.post(
               creatServer.url,
               creatServer.ctxList,
               {
@@ -229,20 +229,20 @@ export default {
         })
         .then(res => {
           if (file.isCancel()) {
-            return Vue.Promise.reject()
+            return Promise.reject()
           }
           if (!res) {
             return
           }
-          if (res.body.code) {
-            this.$notify(Notify.FILE_UPLOAD_FAILED(file.name, res.body.message))
+          if (res.code) {
+            this.$notify(Notify.FILE_UPLOAD_FAILED(file.name, res.message))
             this.removeUploadindTask(file)
-          } else if (res.body.hash !== file.sha1) {
+          } else if (res.hash !== file.sha1) {
             this.$notify(Notify.FILE_CHECK_FAILED(file.name))
             file.setStatus(WUFile.STATUS.FAILED)
             file.setPos(0)
           } else {
-            let fileInfo = JSON.parse(res.body.response).result
+            let fileInfo = JSON.parse(res.response).result
             file.setFileInfo(fileInfo)
             this.$store.commit(`files/${types.PATH_CREATE_SUCCESS}`, fileInfo)
             file.setStatus(WUFile.STATUS.DONE)

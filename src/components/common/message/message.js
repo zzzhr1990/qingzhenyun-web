@@ -7,6 +7,10 @@ const Message = {
     message: '登录成功',
     type: 'success'
   },
+  ILLEGAL_URL: {
+    message: '链接非法',
+    type: 'error'
+  },
   COMMON_WARNING (ret) {
     if (typeof ret === 'string') {
       return {
@@ -34,7 +38,7 @@ const Message = {
         status: 0
       }
     }
-    return ret.body || {
+    return ret.data || {
       success: false,
       message: 'ERR_INTERNET_DISCONNECTED',
       code: 'CONNECT_FAILED',

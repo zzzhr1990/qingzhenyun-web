@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import axios from 'axios'
 
 export default {
   /**
@@ -8,7 +8,7 @@ export default {
    * @return {Promise}
    */
   parseTorrent (opts) {
-    return Vue.http.post('/v1/offline/parseTorrent', opts)
+    return axios.post('/v1/offline/parseTorrent', opts)
   },
 
   /**
@@ -23,7 +23,7 @@ export default {
    * @return {Promise}
    */
   start (opts) {
-    return Vue.http.post('/v1/offline/start', opts)
+    return axios.post('/v1/offline/start', opts)
   },
 
   /**
@@ -33,7 +33,7 @@ export default {
    * @return {Promise}
    */
   parseMagnet (opts) {
-    return Vue.http.post('/v1/offline/parseMagnet', opts)
+    return axios.post('/v1/offline/parseMagnet', opts)
   },
 
   /**
@@ -45,7 +45,7 @@ export default {
    * @return {Promise}
    */
   page (opts) {
-    return Vue.http.post('/v1/offline/page', opts)
+    return axios.post('/v1/offline/page', opts)
   },
 
   /**
@@ -55,6 +55,6 @@ export default {
    * @return {Promise}
    */
   remove (opts) {
-    return Vue.http.post('/v1/offline/remove', opts)
+    return axios.post('/v1/offline/remove', opts)
   }
 }

@@ -32,7 +32,6 @@
 import Icon from '@/components/common/Icon'
 import { mapGetters } from 'vuex'
 import * as types from '@/store/mutation-types'
-import Vue from 'vue'
 import fileMixns from '@/components/common/mixins/file'
 import myMixins from '@/components/common/mixins/utils'
 import Message from '@/components/common/message/message'
@@ -82,7 +81,7 @@ export default {
         for (const selected of this.pagefileselect) {
           promiselist.push(this.deleteone(selected))
         }
-        return Vue.Promise.all(promiselist)
+        return Promise.all(promiselist)
       }).then(() => {
         this.pageReFresh()
       })
@@ -107,15 +106,9 @@ export default {
           parent: this.uuid,
           name: value
         })
-        .then((res) => {
-          const result = res.body
-          if (result.success) {
-            this.$notify(Notify.DIR_CREATE_SUCCESS(value))
-            this.$store.commit(`files/${types.PATH_CREATE_SUCCESS}`, result.result)
-          } else {
-            this.$notify(Notify.COMMON_WARNING(result))
-            this.$store.commit(`files/${types.PATH_CREATE_FAILURE}`)
-          }
+        .then((result) => {
+          this.$notify(Notify.DIR_CREATE_SUCCESS(value))
+          this.$store.commit(`files/${types.PATH_CREATE_SUCCESS}`, result.result)
         })
         .catch((res) => {
           const result = Message.COMMON(res)

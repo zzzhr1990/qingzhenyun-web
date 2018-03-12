@@ -4,7 +4,9 @@
     :data="pageInfo.list"
     tooltip-effect="dark"
     style="width: 100%"
-    @selection-change="handleSelectionChange">
+    height="100%"
+    @selection-change="handleSelectionChange"
+  >
     <el-table-column
       type="selection"
       width="45">
@@ -21,7 +23,7 @@
           </div>
           <div class="fileInfo" :class="cacluCanPointer(scope.row)">
             <div class="fileName">{{ scope.row.name }}</div>
-            <div v-if="fileTypeFilter(scope.row) !== 'folder'" class="fileSize">{{fileSizeFilter(scope.row.size)}}</div>
+            <div v-if="fileTypeFilter(scope.row) !== 'floder'" class="fileSize">{{fileSizeFilter(scope.row.size)}}</div>
           </div>
         </div>
       </template>
@@ -68,6 +70,7 @@ import Message from '@/components/common/message/message'
 import api from '@/api'
 import PlayerShow from '@/components/player'
 import FileIcon from '@/components/common/FileIcon'
+// import '@/utils/directives/tableLoadMore'
 export default {
   name: 'layoutMainList',
   mixins: [myMixins, fileMixns],
@@ -128,7 +131,7 @@ export default {
         .then((res) => {
           PlayerShow(Object.assign({
             uuid: data.uuid
-          }, res.body.result))
+          }, res.result))
         })
         .catch((res) => {
           this.$message(Message.COMMON_ERROR(res))
@@ -155,11 +158,8 @@ export default {
         .download({
           uuid: file.uuid
         })
-        .then((res) => {
-          const result = res.body
-          if (result.success) {
-            this.openDownloadSource(result.result.url)
-          }
+        .then((result) => {
+          this.openDownloadSource(result.result.url)
         })
         .catch(res => {
           const result = Message.COMMON(res)
