@@ -1,26 +1,26 @@
-import { MessageBox } from 'element-ui'
+import { Message } from 'element-ui'
 
-const Message = {
+const MES = {
   WAITING () {
-    MessageBox({
+    Message({
       message: '正在请求中，请耐心等待',
       type: 'warning'
     })
   },
   LOGIN_SUCCESS () {
-    MessageBox({
+    Message({
       message: '登录成功',
       type: 'success'
     })
   },
   ILLEGAL_URL () {
-    MessageBox({
+    Message({
       message: '链接非法',
       type: 'error'
     })
   },
   LOGOUT_SUCCESS () {
-    MessageBox({
+    Message({
       message: '退出成功',
       type: 'success'
     })
@@ -56,22 +56,22 @@ const Message = {
     }
   },
   COMMON_ERROR (ret) {
-    MessageBox(Message.COMMON(ret))
+    Message(MES.COMMON(ret))
   },
 
   REGIST_SUCCESS () {
-    MessageBox({
+    Message({
       message: '注册成功，3秒钟后跳转',
       type: 'success'
     })
   },
 
   DEVELOPING () {
-    MessageBox({
+    Message({
       message: '功能正在开发中...',
       type: 'warning'
     })
   }
 }
 
-export default Message
+export default MES

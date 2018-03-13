@@ -1,4 +1,4 @@
-import popupFactory from 'chimee-plugin-popup'
+import { popupFactory } from 'chimee-player'
 import './chimee-plugin-play-seek.css'
 
 export default popupFactory({
