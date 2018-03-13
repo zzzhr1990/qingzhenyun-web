@@ -9,7 +9,7 @@
         <i class="el-icon-close" style="float: right;" @click="hideUploadBox"></i>
         <el-button style="float: left; padding: 3px 0" type="text" @click="wakeUp">选择文件</el-button>
       </div>
-      <div class="file clearfix" v-for="file in uploadList">
+      <div class="file clearfix" v-for="file in uploadList" :key="file.batch">
         <div class="progress" :style="{width:file.progress + '%'}"></div>
         <span class="filename" :title="file.name">{{file.name}}</span>
         <span class="filestatus" v-if="file.status !== 'failed'">{{file.status}} <i class="el-icon-delete pointer" @click="removeFileFromList(file)"></i></span>
@@ -130,14 +130,14 @@ export default {
         .getHash()
         .then(() => {
           if (file.isCancel()) {
-            return Promise.reject()
+            return new Error('Cancel upload!')
           }
           file.setStatus(WUFile.STATUS.PREPARING)
           return file.getToken()
         })
         .then(() => {
           if (file.isCancel()) {
-            return Promise.reject()
+            return new Error('Cancel upload!')
           }
           if (file.isExisted()) {
             file.setStatus(WUFile.STATUS.DONE)
@@ -182,7 +182,7 @@ export default {
         .resolve(file)
         .then((file) => {
           if (file.isCancel()) {
-            return Promise.reject()
+            return new Error('Cancel upload!')
           }
           return axios.post(
             uploadInfo.url,
@@ -203,11 +203,11 @@ export default {
         })
         .then((res) => {
           if (file.isCancel()) {
-            return Promise.reject()
+            return new Error('Cancel upload!')
           }
           if (res.code) {
             Notify.FILE_UPLOAD_FAILED(file.name, res.message)
-            return Promise.reject()
+            return new Error('Upload error: ' + res.message)
           }
           file.setCtx(res.ctx, uploadInfo.chunk)
           if (uploadInfo.chunk.isFileEnd) {
@@ -230,7 +230,7 @@ export default {
         })
         .then(res => {
           if (file.isCancel()) {
-            return Promise.reject()
+            return new Error('Cancel upload!')
           }
           if (!res) {
             return
@@ -290,7 +290,6 @@ export default {
 .clearfix:after {
   clear: both
 }
-
 
 .file {
   width: 100%;

@@ -41,32 +41,14 @@ const actions = {
   create ({ commit, state }, opts) {
     commit(types.PATH_CREATE_REQUEST)
     return api.files.create(opts)
-      // .then((res) => {
-      //   commit(types.PATH_CREATE_SUCCESS, res.body)
-      // })
-      // .catch((e) => {
-      //   commit(types.PATH_CREATE_FAILURE, e)
-      // })
   },
   delete ({ commit, state }, opts) {
     commit(types.PATH_DELETE_REQUEST)
     return api.files.recycle(opts)
-      // .then((res) => {
-      //   commit(types.PATH_DELETE_SUCCESS, opts)
-      // })
-      // .catch((e) => {
-      //   commit(types.PATH_DELETE_FAILURE, e)
-      // })
   },
   rename ({ commit, state }, opts) {
     commit(types.PATH_RENAME_REQUEST)
     return api.files.rename(opts)
-      // .then((res) => {
-      //   commit(types.PATH_RENAME_SUCCESS, opts)
-      // })
-      // .catch((e) => {
-      //   commit(types.PATH_RENAME_FAILURE, e)
-      // })
   },
   move ({ commit, state }, opts) {
     commit(types.PATH_MOVE_REQUEST)

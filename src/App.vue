@@ -16,6 +16,7 @@ export default {
 }
 </script>
 
+/* eslint-disable */
 <style>
 .loginbox {
   position: absolute;
@@ -51,7 +52,6 @@ export default {
   background-image: url(./assets/login/phone.png);
 }
 
-
 .icon.nickname {
   width: 20px;
   height: 18px;
@@ -77,15 +77,15 @@ export default {
 }
 
 .loginbox .el-input__inner::-webkit-input-placeholder {
-　color:#53D9A4;
+ color: #53D9A4;
 }
 
 .loginbox .el-input__inner::-moz-input-placeholder {
-　color:#53D9A4;
+ color: #53D9A4;
 }
 
 .loginbox .el-input__inner::-ms-input-placeholder {
-　color:#53D9A4;
+ color: #53D9A4;
 }
 
 .loginbox .el-input-group__prepend {

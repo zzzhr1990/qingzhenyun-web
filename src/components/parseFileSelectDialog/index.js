@@ -21,7 +21,7 @@ export default function (opts = {}) {
       if (value) {
         resolve(value)
       } else {
-        reject()
+        reject(new Error('Select file Canceled!'))
       }
     })
   })

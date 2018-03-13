@@ -17,7 +17,7 @@ export default function () {
       if (value) {
         resolve(value)
       } else {
-        reject()
+        reject(new Error('Dir select canceled!'))
       }
     })
   })

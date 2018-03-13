@@ -113,14 +113,14 @@ export default {
               list: res.result.files,
               title: res.result.name
             })
-            .then(({files, saveUuid}) => {
-              this.start({
-                type: this.types.MAGNET,
-                taskHash: res.result.taskHash,
-                files: files,
-                saveUuid: saveUuid
+              .then(({files, saveUuid}) => {
+                this.start({
+                  type: this.types.MAGNET,
+                  taskHash: res.result.taskHash,
+                  files: files,
+                  saveUuid: saveUuid
+                })
               })
-            })
           }
         })
         .catch(e => {
@@ -232,14 +232,14 @@ export default {
             list: res.result.files,
             title: res.result.name
           })
-          .then(({files, saveUuid}) => {
-            this.start({
-              type: this.types.BT,
-              taskHash: res.result.taskHash,
-              files: files,
-              saveUuid: saveUuid
+            .then(({files, saveUuid}) => {
+              this.start({
+                type: this.types.BT,
+                taskHash: res.result.taskHash,
+                files: files,
+                saveUuid: saveUuid
+              })
             })
-          })
         })
         .catch(res => {
           Notify.COMMON_WARNING(res)

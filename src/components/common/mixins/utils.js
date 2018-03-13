@@ -39,8 +39,12 @@ export default {
       const year = t.getFullYear()
       let month = t.getMonth()
       let day = t.getDate()
-      month > 9 ? '' : (month = '0' + month)
-      day > 9 ? '' : (day = '0' + day)
+      if (month <= 9) {
+        month = '0' + month
+      }
+      if (day <= 9) {
+        day = '0' + day
+      }
       return `${year}-${month}-${day}`
     },
 

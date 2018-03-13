@@ -158,13 +158,13 @@ class File {
         parent: this.puid,
         hash: this.sha1
       })
-      .then(res => {
-        this.tokenInfo = res.result
-        resolve(this)
-      })
-      .catch(res => {
-        reject(res)
-      })
+        .then(res => {
+          this.tokenInfo = res.result
+          resolve(this)
+        })
+        .catch(res => {
+          reject(res)
+        })
     })
   }
 
@@ -199,7 +199,7 @@ class File {
         fr.onloadend = fr.onload = fr.onerror = null
       }
       fr.onerror = function () {
-        reject()
+        reject(new Error('Read file error!'))
       }
       fr.readAsArrayBuffer(this.slice(block.blockStartByte, block.blockEndByte))
     })
