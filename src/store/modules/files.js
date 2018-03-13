@@ -86,10 +86,14 @@ const mutations = {
   [types.PATH_MOVE_DONE] (state, shouldDelete) {
     state.requestStatus = 'done'
     if (shouldDelete) {
-      for (var i = 0; i < state.result.list.length; i++) {
-        if (state.result.list[i].uuid === shouldDelete.uuid) {
+      var i = 0
+      var j = 0
+      while (j < shouldDelete.length && state.result.list[i] !== undefined) {
+        if (state.result.list[i].uuid === shouldDelete[j].uuid) {
           state.result.list.splice(i, 1)
-          return
+          j++
+        } else {
+          i++
         }
       }
     }
@@ -133,10 +137,14 @@ const mutations = {
 
   [types.PATH_DELETE_SUCCESS] (state, data) {
     state.requestStatus = 'done'
-    for (var i = 0; i < state.result.list.length; i++) {
-      if (state.result.list[i].uuid === data.uuid) {
+    var i = 0
+    var j = 0
+    while (j < data.length && state.result.list[i] !== undefined) {
+      if (state.result.list[i].uuid === data[j].uuid) {
         state.result.list.splice(i, 1)
-        return
+        j++
+      } else {
+        i++
       }
     }
   },

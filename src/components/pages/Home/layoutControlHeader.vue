@@ -72,19 +72,7 @@ export default {
       this.moveFile(this.pagefileselect)
     },
     deleteAll () {
-      this.$confirm('此操作将删除多个文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        let promiselist = []
-        for (const selected of this.pagefileselect) {
-          promiselist.push(this.deleteone(selected))
-        }
-        return Promise.all(promiselist)
-      }).then(() => {
-        this.pageReFresh()
-      })
+      this.deleteFile(this.pagefileselect)
     },
     downloadAll () {
       this.$message(Message.DEVELOPING)

@@ -2,7 +2,7 @@
 const state = {
   uploadConfig: {
     BlockSize: 4 * 1024 * 1024,
-    ChunkSize: 4 * 1024 * 1024,
+    ChunkSize: 1 * 1024 * 1024,
     maxQueueLen: 99,
     concurrency: 3,
     ChunkRetry: 3

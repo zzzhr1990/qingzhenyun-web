@@ -30,43 +30,47 @@ export default {
     },
 
     moveFile (data) {
-      let d = this.awaysGetArray(data)
       DialogShow()
         .then(selectDir => {
-          let promiselist = []
-          for (const selected of d) {
-            promiselist.push(this.moveone(selected, selectDir))
-          }
-          return Promise.all(promiselist)
+          return this.moveone(
+            this.awaysGetArray(data),
+            selectDir
+          )
         })
-        .then(done => {
-          this.pageReFresh()
-        })
+        .catch(e => {})
     },
 
     moveone (data, selectDir = {}) {
       return this
         .$store
         .dispatch(`files/move`, {
-          uuid: data.uuid,
+          uuid: data.map(item => item.uuid),
           parent: selectDir.uuid || ''
         })
         .then((result) => {
-          this.$notify(Notify.FILE_MOVE_SUCCESS(data.name))
+          this.$notify(Notify.FILE_MOVE_SUCCESS)
           this.$store.commit(`files/${types.PATH_MOVE_DONE}`, data)
+        })
+        .then(done => {
+          this.pageReFresh()
         })
         .catch((res) => {
           const result = Message.COMMON(res)
-          this.$notify(Notify.FILE_MOVE_FAILED(data.name, result.code || result.message))
+          this.$notify(Notify.FILE_MOVE_FAILED(result.message || result.code))
           this.$store.commit(`files/${types.PATH_MOVE_DONE}`)
         })
     },
 
     deleteone (data) {
-      return this.$store.dispatch(`files/delete`, {uuid: data.uuid})
+      return this.$store.dispatch(`files/delete`, {
+        uuid: data.map(item => item.uuid)
+      })
         .then((result) => {
-          this.$notify(Notify.FILE_DELETE_SUCCESS(data.name))
+          this.$notify(Notify.FILE_DELETE_SUCCESS)
           this.$store.commit(`files/${types.PATH_DELETE_SUCCESS}`, data)
+        })
+        .then(() => {
+          this.pageReFresh()
         })
         .catch((res) => {
           const result = Message.COMMON(res)
@@ -76,15 +80,12 @@ export default {
     },
 
     deleteFile (data) {
-      this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
+      this.$confirm('此操作将删除选中文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.deleteone(data)
-          .then(() => {
-            this.pageReFresh()
-          })
+        this.deleteone(this.awaysGetArray(data))
       }).catch(_ => {})
     },
 

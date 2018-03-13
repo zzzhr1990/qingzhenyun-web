@@ -23,19 +23,17 @@ export default {
     }
   },
 
-  FILE_MOVE_SUCCESS (fileName) {
-    return {
-      title: '文件移动成功',
-      message: `文件 ${fileName} 移动成功`,
-      type: 'success'
-    }
+  FILE_MOVE_SUCCESS: {
+    title: '成功',
+    message: '文件移动成功',
+    type: 'success'
   },
 
-  FILE_MOVE_FAILED (fileName, msg = '') {
+  FILE_MOVE_FAILED (msg = '') {
     return {
-      title: '文件移动失败',
-      message: `移动文件 ${fileName} 失败 ${msg}`,
-      type: 'warning'
+      title: '失败',
+      message: `文件移动失败 ${msg}`,
+      type: 'error'
     }
   },
 
@@ -55,19 +53,17 @@ export default {
     }
   },
 
-  FILE_DELETE_SUCCESS (fileName) {
-    return {
-      title: '文件删除成功',
-      message: `删除 ${fileName} 成功`,
-      type: 'success'
-    }
+  FILE_DELETE_SUCCESS: {
+    title: '成功',
+    message: '文件删除成功',
+    type: 'success'
   },
 
-  FILE_DELETE_ERROR (fileName, msg = '') {
+  FILE_DELETE_ERROR (msg = '') {
     return {
-      title: '文件删除失败',
-      message: `删除 ${fileName} 失败: ${msg}`,
-      type: 'warning'
+      title: '失败',
+      message: `文件删除失败: ${msg}`,
+      type: 'error'
     }
   },
 
