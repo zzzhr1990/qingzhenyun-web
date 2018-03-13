@@ -134,13 +134,12 @@ export default {
           }, res.result))
         })
         .catch((res) => {
-          this.$message(Message.COMMON_ERROR(res))
+          Message.COMMON_ERROR(res)
         })
     },
     handleCtrlCommand (command) {
       switch (command.type) {
         case 'delete':
-          // statements_1
           this.deleteFile(command.data)
           break
         case 'move':
@@ -162,11 +161,7 @@ export default {
           this.openDownloadSource(result.result.url)
         })
         .catch(res => {
-          const result = Message.COMMON(res)
-          this.$message({
-            message: result.code + ':' + result.message,
-            type: 'warning'
-          })
+          Message.COMMON_ERROR(res)
         })
     }
   }

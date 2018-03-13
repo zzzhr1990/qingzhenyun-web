@@ -24,6 +24,7 @@ import FileSelect from '@/components/parseFileSelectDialog'
 import Message from '@/components/common/message/message'
 import Notify from '@/components/common/message/notify'
 import DirSelectDialogShow from '@/components/dirSelectDialog'
+
 export default {
   data () {
     return {
@@ -48,15 +49,6 @@ export default {
         default:
           this.anotherDownLoad()
           break
-        // case this.types.MAGNET:
-        //   this.magnetDownload()
-        //   break
-        // case this.types.ED2K:
-        //   this.ed2kDownload()
-        //   break
-        // case this.types.HTTP:
-        //   this.download()
-        //   break
       }
     },
     anotherDownLoad () {
@@ -69,31 +61,12 @@ export default {
           } else if (/(^https?:\/\/)|(^s?ftp:\/\/)/.test(value)) {
             this.download(value)
           } else {
-            this.$message(Message.ILLEGAL_URL)
+            Message.ILLEGAL_URL()
           }
         })
         .catch(e => {})
     },
     download (value) {
-      // this.$prompt('请输入下载链接')
-      //   .then(({value}) => {
-      //     DirSelectDialogShow()
-      //       .then(dir => {
-      //         var saveUuid = ''
-      //         if (dir === '根目录') {
-      //           saveUuid = ''
-      //         } else {
-      //           saveUuid = dir.uuid
-      //         }
-      //         this.start({
-      //           url: value,
-      //           saveUuid: saveUuid,
-      //           type: this.types.HTTP
-      //         })
-      //       })
-      //       .catch(e => {})
-      //   })
-      //   .catch(e => {})
       DirSelectDialogShow()
         .then(dir => {
           var saveUuid = ''
@@ -111,54 +84,9 @@ export default {
         .catch(e => {})
     },
     ed2kDownload (value) {
-      this.$message(Message.DEVELOPING)
+      Message.DEVELOPING()
     },
     magnetDownload (value) {
-      // this.$prompt('请输入磁力链接')
-      //   .then(({value}) => {
-      //     api
-      //       .offline
-      //       .parseMagnet({
-      //         url: value
-      //       })
-      //       .then(res => {
-      //         if (!res.result.files) {
-      //           DirSelectDialogShow()
-      //             .then(dir => {
-      //               var saveUuid = ''
-      //               if (dir === '根目录') {
-      //                 saveUuid = ''
-      //               } else {
-      //                 saveUuid = dir.uuid
-      //               }
-      //               this.start({
-      //                 url: value,
-      //                 saveUuid: saveUuid,
-      //                 type: this.types.MAGNET,
-      //                 files: '*'
-      //               })
-      //             })
-      //             .catch(e => {})
-      //         } else {
-      //           FileSelect({
-      //             list: res.result.files,
-      //             title: res.result.name
-      //           })
-      //           .then(({files, saveUuid}) => {
-      //             this.start({
-      //               type: this.types.MAGNET,
-      //               taskHash: res.result.taskHash,
-      //               files: files,
-      //               saveUuid: saveUuid
-      //             })
-      //           })
-      //         }
-      //       })
-      //       .catch(e => {
-      //         this.$message(Notify.COMMON_WARNING(e))
-      //       })
-      //   })
-      //   .catch(e => {})
       api
         .offline
         .parseMagnet({
@@ -169,9 +97,7 @@ export default {
             DirSelectDialogShow()
               .then(dir => {
                 var saveUuid = ''
-                if (dir === '根目录') {
-                  saveUuid = ''
-                } else {
+                if (dir !== '根目录') {
                   saveUuid = dir.uuid
                 }
                 this.start({
@@ -198,7 +124,7 @@ export default {
           }
         })
         .catch(e => {
-          this.$message(Notify.COMMON_WARNING(e))
+          Notify.COMMON_WARNING(e)
         })
     },
     fileSelect (evt) {
@@ -236,7 +162,7 @@ export default {
           }
         })
         .catch(e => {
-          this.$message(Notify.COMMON_WARNING(e))
+          Notify.COMMON_WARNING(e)
         })
     },
     uploadBTFile (file) {
@@ -281,7 +207,7 @@ export default {
             return
           }
           if (res.hash !== file.sha1) {
-            this.$notify(Notify.FILE_CHECK_FAILED(file.name))
+            Notify.FILE_CHECK_FAILED(file.name)
             file.setStatus(WUFile.STATUS.FAILED)
           } else {
             let fileInfo = JSON.parse(res.response).result
@@ -292,7 +218,7 @@ export default {
           }
         })
         .catch(e => {
-          this.$message(Notify.COMMON_WARNING(e))
+          Notify.COMMON_WARNING(e)
         })
     },
     parseTorrent (fileInfo) {
@@ -316,7 +242,7 @@ export default {
           })
         })
         .catch(res => {
-          this.$message(Notify.COMMON_WARNING(res))
+          Notify.COMMON_WARNING(res)
         })
     },
     start (opts = {}) {
@@ -324,11 +250,11 @@ export default {
         .offline
         .start(opts)
         .then(res => {
-          this.$message(Notify.OFFLINE_SUCCESS)
+          Notify.OFFLINE_SUCCESS()
           this.$emit('addonSuccess', res.result)
         })
         .catch(res => {
-          this.$message(Notify.COMMON_WARNING(res))
+          Notify.COMMON_WARNING(res)
         })
     },
     btDownload () {

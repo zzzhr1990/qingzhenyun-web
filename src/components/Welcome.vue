@@ -58,7 +58,7 @@ export default {
       this.$router.push('/login')
     },
     client () {
-      this.$message(Message.DEVELOPING)
+      Message.DEVELOPING()
     },
     register () {
       this.$router.push('/login')

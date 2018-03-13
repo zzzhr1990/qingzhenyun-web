@@ -17,12 +17,12 @@ export default {
     },
     loginAction () {
       if (this.isLogining) {
-        this.$message(Message.WAITING)
+        Message.WAITING()
         return
       }
       this.$store.dispatch('login/login', this.loginField)
         .then(result => {
-          this.$message(Message.LOGIN_SUCCESS)
+          Message.LOGIN_SUCCESS()
           this.$store.commit('login/' + types.LOGIN_SET_UINFO, result.result)
           this.$store.commit('login/' + types.LOGIN_SET_TOKEN, result.token)
           this.$store.commit('login/' + types.LOGIN_SUCCESS)
@@ -34,7 +34,7 @@ export default {
     },
     logoutAction () {
       this.$store.dispatch('login/logout')
-      this.$message(Message.LOGOUT_SUCCESS)
+      Message.LOGOUT_SUCCESS()
       this.$nextTick(() => {
         this.$router.replace('login')
       })

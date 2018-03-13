@@ -27,9 +27,9 @@ import WUFile from '@/utils/file'
 import axios from 'axios'
 import * as types from '@/store/mutation-types'
 import fileMixns from '@/components/common/mixins/file'
-import Message from '@/components/common/message/message'
 import Notify from '@/components/common/message/notify'
 import { mapGetters } from 'vuex'
+
 export default {
   name: 'UploadBox',
   mixins: [fileMixns],
@@ -81,7 +81,7 @@ export default {
       let len = files.length
       let list = this.uploadList.filter(item => !item.isDone())
       if (files.length + list.length > this.uploadConfig.maxQueueLen) {
-        this.$notify(Notify.FILE_NUM_OVERFLOW(this.uploadConfig.maxQueueLen))
+        Notify.FILE_NUM_OVERFLOW(this.uploadConfig.maxQueueLen)
         len = this.uploadConfig.maxQueueLen - list.length
       }
       if (len <= 0) {
@@ -151,7 +151,7 @@ export default {
           this.uploadOneFileStart(file)
         })
         .catch((e) => {
-          this.$notify(Notify.FILE_UPLOAD_FAILED(file.name, Message.COMMON(e).message))
+          Notify.FILE_UPLOAD_FAILED(file.name, e)
           if (file.isCancel()) {
             file.destroy()
           } else {
@@ -206,6 +206,7 @@ export default {
             return Promise.reject()
           }
           if (res.code) {
+            Notify.FILE_UPLOAD_FAILED(file.name, res.message)
             return Promise.reject()
           }
           file.setCtx(res.ctx, uploadInfo.chunk)
@@ -235,10 +236,10 @@ export default {
             return
           }
           if (res.code) {
-            this.$notify(Notify.FILE_UPLOAD_FAILED(file.name, res.message))
+            Notify.FILE_UPLOAD_FAILED(file.name, res.message)
             this.removeUploadindTask(file)
           } else if (res.hash !== file.sha1) {
-            this.$notify(Notify.FILE_CHECK_FAILED(file.name))
+            Notify.FILE_CHECK_FAILED(file.name)
             file.setStatus(WUFile.STATUS.FAILED)
             file.setPos(0)
           } else {

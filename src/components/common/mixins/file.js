@@ -1,6 +1,5 @@
 import * as types from '@/store/mutation-types'
 import Notify from '@/components/common/message/notify'
-import Message from '@/components/common/message/message'
 import DialogShow from '@/components/dirSelectDialog'
 export default {
   methods: {
@@ -48,15 +47,14 @@ export default {
           parent: selectDir.uuid || ''
         })
         .then((result) => {
-          this.$notify(Notify.FILE_MOVE_SUCCESS)
+          Notify.FILE_MOVE_SUCCESS()
           this.$store.commit(`files/${types.PATH_MOVE_DONE}`, data)
         })
         .then(done => {
           this.pageReFresh()
         })
         .catch((res) => {
-          const result = Message.COMMON(res)
-          this.$notify(Notify.FILE_MOVE_FAILED(result.message || result.code))
+          Notify.FILE_MOVE_FAILED(res)
           this.$store.commit(`files/${types.PATH_MOVE_DONE}`)
         })
     },
@@ -66,15 +64,14 @@ export default {
         uuid: data.map(item => item.uuid)
       })
         .then((result) => {
-          this.$notify(Notify.FILE_DELETE_SUCCESS)
+          Notify.FILE_DELETE_SUCCESS()
           this.$store.commit(`files/${types.PATH_DELETE_SUCCESS}`, data)
         })
         .then(() => {
           this.pageReFresh()
         })
         .catch((res) => {
-          const result = Message.COMMON(res)
-          this.$notify(Notify.FILE_DELETE_ERROR(data.name, result.code || result.message))
+          Notify.FILE_DELETE_ERROR(data.name, res)
           this.$store.commit(`files/${types.PATH_DELETE_FAILURE}`)
         })
     },
@@ -97,12 +94,11 @@ export default {
           name: value
         })
         .then((result) => {
-          this.$notify(Notify.FILE_MODIFY_SUCCESS(data.name))
+          Notify.FILE_MODIFY_SUCCESS(data.name)
           this.$store.commit(`files/${types.PATH_RENAME_SUCCESS}`, result.result)
         })
         .catch((res) => {
-          const result = Message.COMMON(res)
-          this.$notify(Notify.FILE_MODIFY_FAILED(data.name, result.code || result.message))
+          Notify.FILE_MODIFY_FAILED(data.name, res)
           this.$store.commit(`files/${types.PATH_RENAME_FAILURE}`)
         })
     },

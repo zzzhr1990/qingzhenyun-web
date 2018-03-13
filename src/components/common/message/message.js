@@ -1,64 +1,76 @@
+import { MessageBox } from 'element-ui'
+
 const Message = {
-  WAITING: {
-    message: '正在请求中，请耐心等待',
-    type: 'warning'
+  WAITING () {
+    MessageBox({
+      message: '正在请求中，请耐心等待',
+      type: 'warning'
+    })
   },
-  LOGIN_SUCCESS: {
-    message: '登录成功',
-    type: 'success'
+  LOGIN_SUCCESS () {
+    MessageBox({
+      message: '登录成功',
+      type: 'success'
+    })
   },
-  ILLEGAL_URL: {
-    message: '链接非法',
-    type: 'error'
+  ILLEGAL_URL () {
+    MessageBox({
+      message: '链接非法',
+      type: 'error'
+    })
   },
-  COMMON_WARNING (ret) {
+  LOGOUT_SUCCESS () {
+    MessageBox({
+      message: '退出成功',
+      type: 'success'
+    })
+  },
+  COMMON (ret = {}) {
     if (typeof ret === 'string') {
       return {
         message: ret,
-        type: 'warning'
+        type: 'error'
+      }
+    }
+    if (ret instanceof Error) {
+      return {
+        message: ret.message,
+        type: 'error'
+      }
+    }
+    if (ret.data) {
+      if (typeof ret.data === 'string') {
+        return {
+          message: ret.data,
+          type: 'error'
+        }
+      }
+      return {
+        message: ret.data.message || ret.data.code,
+        type: 'error'
       }
     }
     return {
-      message: ret.code + ':' + ret.message,
-      type: 'warning'
+      message: '未知错误',
+      type: 'error'
     }
   },
-
-  LOGOUT_SUCCESS: {
-    message: '退出成功',
-    type: 'success'
-  },
-
-  COMMON (ret = {}) {
-    if (ret instanceof Error) {
-      return {
-        success: false,
-        message: ret.message,
-        code: 'ERROR',
-        status: 0
-      }
-    }
-    return ret.data || {
-      success: false,
-      message: 'ERR_INTERNET_DISCONNECTED',
-      code: 'CONNECT_FAILED',
-      status: 0
-    }
-  },
-
   COMMON_ERROR (ret) {
-    const msg = Message.COMMON(ret)
-    return Message.COMMON_WARNING(msg)
+    MessageBox(Message.COMMON(ret))
   },
 
-  REGIST_SUCCESS: {
-    message: '注册成功，3秒钟后跳转',
-    type: 'success'
+  REGIST_SUCCESS () {
+    MessageBox({
+      message: '注册成功，3秒钟后跳转',
+      type: 'success'
+    })
   },
 
-  DEVELOPING: {
-    message: '功能正在开发中...',
-    type: 'warning'
+  DEVELOPING () {
+    MessageBox({
+      message: '功能正在开发中...',
+      type: 'warning'
+    })
   }
 }
 

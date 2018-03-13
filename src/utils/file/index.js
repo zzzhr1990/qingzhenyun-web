@@ -14,13 +14,13 @@ function guid () {
 }
 
 const STATUS = {
-  PENDING: 'pending',
-  PREPARING: 'preparing',
-  UPLOADING: 'uploading',
-  CALCULATING: 'calculating',
-  FAILED: 'failed',
-  DONE: 'done',
-  CANCEL: 'cancel'
+  PENDING: '排队中...',
+  PREPARING: '准备中...',
+  UPLOADING: '上传中...',
+  CALCULATING: '计算中...',
+  FAILED: '上传失败',
+  DONE: '上传完成',
+  CANCEL: '取消上传'
 }
 
 const UPLOADING_STATUS = {
@@ -33,7 +33,7 @@ class File {
   constructor ({file, blockSize, chunkSize, uuid, chunkRetry, onStatusChange}) {
     this.file = file
     this.size = file.size || 0
-    this.status = 'pending'
+    this.status = STATUS.PENDING
     this.batch = guid()
     this.puid = uuid
     this.chunkRetry = chunkRetry

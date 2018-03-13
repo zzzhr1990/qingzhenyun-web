@@ -45,7 +45,7 @@ export default {
     handleUserOpt (command) {
       switch (command) {
         case 'changepsw':
-          this.$message(Message.DEVELOPING)
+          Message.DEVELOPING()
           break
         case 'exit':
           this.logoutAction()

@@ -38,6 +38,7 @@ import Message from '@/components/common/message/message'
 import Notify from '@/components/common/message/notify'
 import UploadBoxShow from '@/components/uploadBox'
 import OfflinePopbox from '@/components/offlinePopbox'
+
 export default {
   name: 'layoutControlHeader',
   computed: {
@@ -75,14 +76,12 @@ export default {
       this.deleteFile(this.pagefileselect)
     },
     downloadAll () {
-      this.$message(Message.DEVELOPING)
+      Message.DEVELOPING()
     },
     createDirectoryBtnClicked () {
       this.$prompt('请输入文件夹名称', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消'
-        // inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
-        // inputErrorMessage: '邮箱格式不正确'
       }).then(({ value }) => {
         this.createDirectory(value)
       })
@@ -95,12 +94,11 @@ export default {
           name: value
         })
         .then((result) => {
-          this.$notify(Notify.DIR_CREATE_SUCCESS(value))
+          Notify.DIR_CREATE_SUCCESS(value)
           this.$store.commit(`files/${types.PATH_CREATE_SUCCESS}`, result.result)
         })
         .catch((res) => {
-          const result = Message.COMMON(res)
-          this.$notify(Notify.DIR_CREATE_FAILED(value, result.code || result.message))
+          Notify.DIR_CREATE_FAILED(value, res)
           this.$store.commit(`files/${types.PATH_CREATE_FAILURE}`)
         })
     },

@@ -2,7 +2,7 @@ import Message from '@/components/common/message/message'
 export default {
   methods: {
     catchErrorHandler (e, commit) {
-      this.$message(Message.COMMON_ERROR(e))
+      Message.COMMON_ERROR(e)
       if (commit) {
         this.$store.commit(commit)
       }

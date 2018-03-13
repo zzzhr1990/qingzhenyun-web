@@ -78,9 +78,9 @@ import * as types from '@/store/mutation-types'
 import { mapGetters } from 'vuex'
 import myMixins from '@/components/common/mixins/utils'
 import offlineMixins from '@/components/common/mixins/offline'
-import Message from '@/components/common/message/message'
 import Notify from '@/components/common/message/notify'
 import OfflinePopbox from '@/components/offlinePopbox'
+
 export default {
   name: 'layoutOfflineList',
   mixins: [myMixins, offlineMixins],
@@ -123,12 +123,12 @@ export default {
           taskHash: taskHash
         })
         .then(res => {
-          this.$notify(Notify.OFFLIEN_REMOVE_SUCCESS)
+          Notify.OFFLIEN_REMOVE_SUCCESS()
           this.$store.commit(`offline/${types.OFFLINE_PATH_DELETE_SUCCESS}`)
           this.refresh()
         })
         .catch(e => {
-          this.$notify(Message.COMMON(e))
+          Notify.COMMON_WARNING(e)
           this.$store.commit(`offline/${types.OFFLINE_PATH_DELETE_FAILURE}`)
         })
     },

@@ -8,6 +8,8 @@ import offline from './modules/offline'
 import storeapi from './modules/store'
 import { isObject } from 'toxic-predicate-functions'
 
+window.axios = axios
+
 // Vue.use($HTTP)
 
 function setToken (response) {

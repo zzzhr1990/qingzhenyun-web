@@ -167,12 +167,12 @@ export default {
     },
     register (field) {
       if (this.isRegisting) {
-        this.$message(Message.WAITING)
+        Message.WAITING()
         return
       }
       this.$store.dispatch('login/register', field)
         .then(result => {
-          this.$message(Message.REGIST_SUCCESS)
+          Message.REGIST_SUCCESS()
           this.$store.commit('login/' + types.LOGIN_SET_UINFO, result.result)
           this.$store.commit('login/' + types.SIGNIN_SUCCESS)
           this.goToHome()

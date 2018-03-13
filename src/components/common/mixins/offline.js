@@ -1,5 +1,6 @@
 import * as types from '@/store/mutation-types'
-import Message from '@/components/common/message/message'
+import Notify from '@/components/common/message/notify'
+
 export default {
   methods: {
     getOfflineData (options) {
@@ -18,7 +19,7 @@ export default {
           this.$store.commit(`offline/${types.OFFLINE_PATH_SET_PAGE}`, res.result)
         })
         .catch(e => {
-          this.$notify(Message.COMMON(e))
+          Notify.COMMON_WARNING(e)
           this.$store.commit(`offline/${types.OFFLINE_PATH_FAILURE}`)
         })
     }
