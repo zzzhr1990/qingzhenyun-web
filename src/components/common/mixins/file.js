@@ -1,6 +1,7 @@
 import * as types from '@/store/mutation-types'
 import Notify from '@/components/common/message/notify'
 import DialogShow from '@/components/dirSelectDialog'
+import { MessageBox } from 'element-ui'
 export default {
   methods: {
     getData (opts) {
@@ -77,7 +78,10 @@ export default {
     },
 
     deleteFile (data) {
-      this.$confirm('此操作将删除选中文件, 是否继续?', '提示', {
+      MessageBox({
+        title: '提示',
+        message: '此操作将删除选中文件, 是否继续?',
+        $type: 'confirm',
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -113,7 +117,12 @@ export default {
     },
     renameFile (data) {
       const sources = this.awaysGetArray(data)
-      this.$prompt('请输入新的文件名称', '提示', {
+      MessageBox({
+        title: '提示',
+        message: '请输入新的文件名称',
+        showCancelButton: true,
+        showInput: true,
+        $type: 'prompt',
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         inputValue: (sources[0] && sources[0].name)

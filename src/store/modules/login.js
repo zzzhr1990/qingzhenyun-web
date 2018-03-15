@@ -1,4 +1,4 @@
-import api from '@/api'
+import api from '@/api/index'
 import * as types from '../mutation-types'
 import Cookies from 'js-cookie'
 import {getLocalStorage, setLocalStorage} from 'chimee-helper-utils'

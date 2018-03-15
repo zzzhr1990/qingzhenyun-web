@@ -38,6 +38,7 @@ import Message from '@/components/common/message/message'
 import Notify from '@/components/common/message/notify'
 import UploadBoxShow from '@/components/uploadBox'
 import OfflinePopbox from '@/components/offlinePopbox'
+import { MessageBox } from 'element-ui'
 
 export default {
   name: 'layoutControlHeader',
@@ -79,7 +80,12 @@ export default {
       Message.DEVELOPING()
     },
     createDirectoryBtnClicked () {
-      this.$prompt('请输入文件夹名称', '提示', {
+      MessageBox({
+        title: '提示',
+        message: '请输入文件夹名称',
+        showCancelButton: true,
+        showInput: true,
+        $type: 'prompt',
         confirmButtonText: '确定',
         cancelButtonText: '取消'
       }).then(({ value }) => {

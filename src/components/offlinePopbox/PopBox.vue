@@ -24,6 +24,7 @@ import FileSelect from '@/components/parseFileSelectDialog'
 import Message from '@/components/common/message/message'
 import Notify from '@/components/common/message/notify'
 import DirSelectDialogShow from '@/components/dirSelectDialog'
+import { MessageBox } from 'element-ui'
 
 export default {
   data () {
@@ -52,7 +53,13 @@ export default {
       }
     },
     anotherDownLoad () {
-      this.$prompt('磁力链/电驴/http链接', '请输入链接地址')
+      MessageBox({
+        title: '请输入链接地址',
+        message: '磁力链/电驴/http链接',
+        showCancelButton: true,
+        showInput: true,
+        $type: 'prompt'
+      })
         .then(({value}) => {
           if (/^(magnet:\?xt=urn:btih:)[0-9a-fA-F]{40}.*$/.test(value)) {
             this.magnetDownload(value)
