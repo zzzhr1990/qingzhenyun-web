@@ -8,9 +8,9 @@
         <el-button size="small" @click="createTask(types.ED2K)">新建电驴任务</el-button>
         <el-button size="small" @click="createTask(types.HTTP)">新建链接任务</el-button> -->
       </el-button-group>
-      <div style="display:none">
+      <form ref="form" style="display:none">
         <input ref="fileinput" type="file" @change="fileSelect($event)" />
-      </div>
+      </form>
     </el-dialog>
   </div>
 </template>
@@ -146,6 +146,7 @@ export default {
         uuid: ':TORRENT',
         chunkRetry: this.uploadConfig.ChunkRetry
       })
+      this.$refs.form.reset()
       let promise = Promise.resolve(this.file)
 
       promise

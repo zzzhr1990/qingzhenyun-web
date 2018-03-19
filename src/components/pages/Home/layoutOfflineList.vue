@@ -102,6 +102,9 @@ export default {
       this.refresh()
     }, this.interval)
   },
+  beforeDestroy () {
+    clearInterval(this.timer)
+  },
   methods: {
     setOrder () {
       this.visible2 = false

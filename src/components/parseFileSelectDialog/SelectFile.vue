@@ -78,6 +78,7 @@ export default {
             this.dir = dir.uuid
           }
         })
+        .catch(e => {})
     },
     ok () {
       this.$emit('selectDone', {
