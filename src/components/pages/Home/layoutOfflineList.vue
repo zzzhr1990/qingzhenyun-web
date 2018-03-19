@@ -51,7 +51,7 @@
         label="状态"
       >
         <template slot-scope="scope">
-          <span>{{scope.row.status === 100 ? '下载完成' : '正在下载'}}</span>
+          <span>{{scope.row.status === 200 ? '下载完成' : '正在下载'}}</span>
         </template>
       </el-table-column>
       <el-table-column
