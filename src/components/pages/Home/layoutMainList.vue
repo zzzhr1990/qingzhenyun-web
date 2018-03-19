@@ -55,7 +55,7 @@
       width="110"
     >
       <template slot-scope="scope">
-        <span class="updateTime">{{filterTime(scope.row.atime)}}</span>
+        <span class="updateTime">{{filterTime(scope.row.ctime)}}</span>
       </template>
     </el-table-column>
   </el-table>
