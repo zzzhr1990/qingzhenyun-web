@@ -26,5 +26,19 @@ export default {
    */
   register (opts) {
     return axios.post('/v1/user/register', opts)
+  },
+
+  /**
+   * [sendmsg description]
+   * @param  {Object} opts 参数
+   * Param
+   *      name | type | required
+   *      -----|------|---------
+   *      countryCode | string | false
+   *      phone | string | true
+   * @return {Promise}
+   */
+  sendmsg (opts) {
+    return axios.post('/v1/user/sendRegisterMessage', opts)
   }
 }

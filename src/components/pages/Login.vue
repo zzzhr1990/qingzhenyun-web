@@ -30,19 +30,19 @@
       enter-active-class="fadeInUp"
     >
       <form v-show="!showLoginBox" class="content" action="#" @submit.stop.prevent>
-        <el-input v-model="emailField.name" placeholder="昵称" type="text">
+        <el-input v-model="emailField.name" placeholder="用户名" type="text">
           <template slot="prepend">
             <i class="icon account"></i>
-          </template>
-        </el-input>
-        <el-input v-model="emailField.email" placeholder="邮箱" type="text">
-          <template slot="prepend">
-            <i class="icon email"></i>
           </template>
         </el-input>
         <el-input v-model="emailField.phone" placeholder="手机号码" type="text">
           <template slot="prepend">
             <i class="icon phone"></i>
+          </template>
+        </el-input>
+        <el-input v-model="emailField.code" placeholder="验证码" type="text" maxlength="6">
+          <template slot="append">
+            <span @click="sendsms">{{buttonText}}</span>
           </template>
         </el-input>
         <el-input v-model="emailField.password" placeholder="密码" type="text">
@@ -64,6 +64,7 @@ import * as types from '@/store/mutation-types'
 import loginMixins from '@/components/common/mixins/login'
 import myMixins from '@/components/common/mixins/utils'
 import Message from '@/components/common/message/message'
+import api from '@/api'
 export default {
   components: {
     ButtonUI,
@@ -74,9 +75,10 @@ export default {
     return {
       emailField: {
         name: '',
-        email: '',
+        code: '',
         password: '',
-        phone: ''
+        phone: '',
+        phoneInfo: ''
       },
       // phoneField: {
       //   name: '',
@@ -85,7 +87,9 @@ export default {
       //   password: ''
       // },
       // showEmailRegister: true,
-      showLoginBox: true
+      showLoginBox: true,
+      buttonText: '获取验证码',
+      timer: null
     }
   },
   computed: {
@@ -104,7 +108,7 @@ export default {
       return !(this.loginField.value && this.loginField.password)
     },
     disabledRegistWithEmail () {
-      return !(this.emailField.name && this.emailField.password && this.emailField.email && this.emailField.phone)
+      return !(this.emailField.name && this.emailField.password && this.emailField.code && this.emailField.phone)
     },
     // disabledRegistWithPhone () {
     //   return !(this.phoneField.name && this.phoneField.phone && this.phoneField.password)
@@ -155,6 +159,11 @@ export default {
     //   }
     // }
   },
+  beforeDestory () {
+    clearInterval(this.timer)
+    this.timer = null
+    this.buttonText = '重新获取'
+  },
   methods: {
     // containBlank (v) {
     //   return /(^\s+|\s+$)/.test(v)
@@ -191,6 +200,37 @@ export default {
     //   this.showEmailRegister = !this.showEmailRegister
     // },
     getValidCode () {
+    },
+    async sendsms () {
+      if (!this.emailField.phone) {
+        alert('请先填写手机号!')
+        return
+      }
+      if (this.timer) {
+        return
+      }
+      var time = 60
+      this.timer = setInterval(() => {
+        this.buttonText = time + ''
+        time--
+        if (time < 0) {
+          clearInterval(this.timer)
+          this.timer = null
+          this.buttonText = '重新获取'
+        }
+      }, 1000)
+      try {
+        let ret = await api.user.sendmsg({
+          countryCode: '86',
+          phone: this.emailField.phone
+        })
+        this.emailField.phoneInfo = ret.result
+      } catch (e) {
+        this.catchErrorHandler(e)
+        clearInterval(this.timer)
+        this.timer = null
+        this.buttonText = '重新获取'
+      }
     }
   }
 }
