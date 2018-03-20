@@ -209,7 +209,7 @@ export default {
       if (this.timer) {
         return
       }
-      var time = 60
+      var time = 120
       this.timer = setInterval(() => {
         this.buttonText = time + ''
         time--
@@ -227,9 +227,6 @@ export default {
         this.emailField.phoneInfo = ret.result
       } catch (e) {
         this.catchErrorHandler(e)
-        clearInterval(this.timer)
-        this.timer = null
-        this.buttonText = '重新获取'
       }
     }
   }
