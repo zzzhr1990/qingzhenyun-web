@@ -30,6 +30,13 @@ const getters = {
   },
   nowPage (state) {
     return state.page
+  },
+  breadcrumbsInfo (state) {
+    let result = [state.result.info]
+    if (state.result.path.length !== 0) {
+      result = [].concat(state.result.path).concat(result)
+    }
+    return result
   }
 }
 

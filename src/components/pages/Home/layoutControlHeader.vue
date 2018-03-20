@@ -22,8 +22,7 @@
       </div>
     </div>
     <div class="breadcrumb">
-      <span @click="jumpTo('')">全部文件</span>
-      <span v-for="path in pageInfo.path" :key="path.uuid" @click="jumpTo(path.uuid)">/ {{path.name}}</span>
+      <span v-for="(path, index) in pageInfo.path" :key="path.uuid" @click="jumpTo(path.uuid)">/ {{index === 0 ? '全部文件' : path.name}}</span>
     </div>
   </div>
 </template>
