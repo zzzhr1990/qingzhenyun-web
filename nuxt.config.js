@@ -1,4 +1,6 @@
-const pkg = require('./package')
+// const pkg = require('./package')
+
+// const path = require('path')
 
 const nodeExternals = require('webpack-node-externals')
 
@@ -47,7 +49,7 @@ module.exports = {
     short_name: '6pan',
     theme_color: 'green',
     display: 'standalone',
-    background_color: "#fff",
+    background_color: '#fff',
     description: '仓鼠云6PAN.COM-专业的私人云盘,在线存储,云端备份,为您提供安全、便捷、愉悦的云存储体验',
     lang: 'zh'
   },
@@ -67,7 +69,7 @@ module.exports = {
   */
   css: [
     'material-design-icons/iconfont/material-icons.css',
-    'chimee-player/lib/chimee-player.css',
+    'chimee-player/lib/chimee-player.browser.css',
     'vuetify/src/stylus/main.styl'
   ],
 
@@ -103,7 +105,7 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
-    extend(config, { isDev, isClient, isServer }) {
+    extend (config, { isDev, isClient, isServer }) {
       // if (!isDev) {
       //   const vueLoader = webpackConfig.module.rules.find(loader => loader.loader === 'vue-loader')
       //   if (vueLoader) {
@@ -153,7 +155,7 @@ module.exports = {
             targets: {
               browsers: ['> 1%', 'last 2 versions', 'not ie <= 8']
             }
-          },
+          }
         ],
         ['stage-2']
       ],
