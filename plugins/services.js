@@ -23,7 +23,7 @@ import axios from 'axios'
 // Vue.prototype.$services = service
 export default ({ app, store }) => {
   const service = axios.create({
-    baseURL: process.env.baseURL
+    baseURL: process.server ? process.env.serverBaseURL : process.env.baseURL
   })
   service.interceptors.request.use(config => {
     if (store.state.login.token && !config.headers.Authorization) {
