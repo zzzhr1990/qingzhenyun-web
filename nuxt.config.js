@@ -81,6 +81,7 @@ module.exports = {
     '@/plugins/vuetify',
     '@/plugins/services',
     '@/plugins/prompt',
+    '@/plugins/axios',
     { src: '@/plugins/chimee-player', ssr: false }
   ],
 
