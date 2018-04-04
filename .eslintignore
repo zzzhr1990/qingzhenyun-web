@@ -2,3 +2,5 @@
 /config/
 /dist/
 /*.js
+/.nuxt/
+/static/sw.js
