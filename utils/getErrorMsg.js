@@ -8,7 +8,7 @@ export default function getErrorMsg (rsp) {
         return rsp.response.data
       }
       if (typeof rsp.response.data === 'object') {
-        return rsp.response.data.message
+        return rsp.response.data.message || rsp.response.data.code
       }
     }
   }

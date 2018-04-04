@@ -129,7 +129,7 @@ export default {
       })
       if (done) {
         this.$nextTick(() => {
-          this.$router.push('/home/root/1')
+          this.$router.push('/home/')
         })
       }
     }

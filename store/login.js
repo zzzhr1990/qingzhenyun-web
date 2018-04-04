@@ -1,4 +1,3 @@
-import axios from 'axios'
 import getErrorMsg from '@/utils/getErrorMsg'
 import Cookies from 'universal-cookie'
 
@@ -76,7 +75,7 @@ export const actions = {
   async login ({ commit }, opts) {
     commit('REQUEST_LOGIN')
     try {
-      const { data: { result, token } } = await axios.post('/v1/user/login', opts)
+      const { data: { result, token } } = await this.app.$axios.post('/v1/user/login', opts)
       commit('SET_USER_INFO', result)
       commit('SET_TOKEN', token)
       return true
@@ -88,7 +87,7 @@ export const actions = {
   async sendMsg ({ commit }, opts) {
     commit('REQUEST_SEND_MSG')
     try {
-      const { data: { result } } = await axios.post('/v1/user/sendLoginMessage', opts)
+      const { data: { result } } = await this.app.$axios.post('/v1/user/sendLoginMessage', opts)
       commit('SET_PHONE_INFO', result)
     } catch (e) {
       commit('SEND_MSG_FAILED', getErrorMsg(e))
@@ -98,7 +97,7 @@ export const actions = {
   async loginByMsg ({ commit }, opts) {
     commit('REQUEST_LOGIN')
     try {
-      const { data: { result, token } } = await axios.post('/v1/user/loginByMessage', opts)
+      const { data: { result, token } } = await this.app.$axios.post('/v1/user/loginByMessage', opts)
       commit('SET_USER_INFO', result)
       commit('SET_TOKEN', token)
       return true

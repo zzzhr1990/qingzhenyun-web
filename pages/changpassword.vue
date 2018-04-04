@@ -62,7 +62,7 @@
     </v-stepper>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn flat color="blue lighten-3" small to="/login">已有账号？</v-btn>
+      <v-btn flat color="blue lighten-3" small to="/changewitholdpassword">使用旧密码更改</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -73,6 +73,7 @@ import countryCode from '@/assets/countryCode.json'
 import { mapState, mapActions } from 'vuex'
 export default {
   layout: 'toolbarback',
+  middleware: 'auth',
   head: {
     title: '修改密码'
   },
@@ -156,7 +157,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('changepasswordwithmsg', [
+    ...mapActions('changepassword', [
       'changeByMsg',
       'sendMsg',
       'nextStep',

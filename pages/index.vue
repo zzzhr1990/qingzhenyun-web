@@ -202,6 +202,7 @@ import al from '@/assets/anla.jpg'
 import logo from '@/assets/logo.jpg'
 export default {
   layout: 'index',
+  middleware: 'jumptohome',
   data () {
     return {
       sectionbg: al,

@@ -7,7 +7,7 @@ export const state = () => {
       fetching: false,
       phoneInfo: ''
     },
-    reg: {
+    change: {
       fetching: false
     },
     message: null
@@ -29,14 +29,14 @@ export const mutations = {
       message: result
     }
   },
-  REQUEST_REGIST (state) {
-    state.reg.fetching = true
+  REQUEST_CHANGEPASWORD (state) {
+    state.change.fetching = true
   },
-  REGIST_SUCCESS (state) {
-    state.reg.fetching = false
+  CHANGEPASWORD_SUCCESS (state) {
+    state.change.fetching = false
   },
-  REGIST_FAILED (state, result) {
-    state.reg.fetching = false
+  CHANGEPASWORD_FAILED (state, result) {
+    state.change.fetching = false
     state.message = {
       type: 'error',
       message: result
@@ -51,26 +51,24 @@ export const mutations = {
 }
 
 export const actions = {
-  async sendMsg ({ commit }, opts) {
+  async sendMsg ({ commit, app }, opts) {
     commit('REQUEST_PHONEINFO')
     try {
-      const { data: {result} } = await this.app.$axios.post('/v1/user/sendRegisterMessage', opts)
+      const { data: {result} } = await app.$http.post('/v1/user/sendChangePasswordMessage', opts)
       commit('GET_PHONEINFO_SUCCESS', result)
     } catch (error) {
       commit('GET_PHONEINFO_FAILED', getErrorMsg(error))
     }
   },
 
-  async regist ({ commit }, opts) {
-    commit('REQUEST_REGIST')
+  async changeByMsg ({ commit, app }, opts) {
+    commit('REQUEST_CHANGEPASWORD')
     try {
-      const { data: { result, token } } = await this.app.$axios.post('/v1/user/register', opts)
-      commit('REGIST_SUCCESS')
-      this.commit('login/SET_USER_INFO', result)
-      this.commit('login/SET_TOKEN', token)
+      await app.$http.post('/v1/user/changePasswordByMessage', opts)
+      commit('CHANGEPASWORD_SUCCESS')
       return true
     } catch (error) {
-      commit('REGIST_FAILED', getErrorMsg(error))
+      commit('CHANGEPASWORD_FAILED', getErrorMsg(error))
     }
   },
 

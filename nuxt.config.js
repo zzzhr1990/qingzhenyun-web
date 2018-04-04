@@ -70,7 +70,8 @@ module.exports = {
   css: [
     'material-design-icons/iconfont/material-icons.css',
     'chimee-player/lib/chimee-player.browser.css',
-    'vuetify/src/stylus/main.styl'
+    'vuetify/src/stylus/main.styl',
+    '@/assets/css/vuetify-fixed.css'
   ],
 
   /*
@@ -78,17 +79,10 @@ module.exports = {
   */
   plugins: [
     '@/plugins/vuetify',
-    // '@/plugins/cdn',
-    '~/plugins/g',
+    '@/plugins/services',
+    '@/plugins/prompt',
     { src: '@/plugins/chimee-player', ssr: false }
   ],
-
-  axios: {
-  },
-  env: {
-    API_URL: 'http://localhost:3000',
-    API_URL_BROWSER: 'http://localhost:3000'
-  },
 
   /*
   ** Nuxt.js modules
@@ -144,7 +138,8 @@ module.exports = {
     vendor: [
       'axios',
       'universal-cookie',
-      'chimee-player'
+      'chimee-player',
+      '@/assets/countryCode.json'
     ],
     maxChunkSize: 350000,
     babel: {
@@ -161,9 +156,8 @@ module.exports = {
       ],
       plugins: ['transform-runtime']
     }
+  },
+  env: {
+    baseURL: 'https://6pan.cn'
   }
-  // ,
-  // env: {
-  //   baseUrl: extendConfig.baseUrl
-  // }
 }
