@@ -75,6 +75,7 @@
                 <v-btn color="primary" flat v-if="ex4.length" @click="moveItAll">移动全部</v-btn>
                 <v-btn color="primary" flat v-if="!ex4.length">离线下载</v-btn>
                 <v-btn color="primary" flat v-if="!ex4.length" @click="uploadIt">上传文件</v-btn>
+                <v-btn color="primary" flat v-if="!ex4.length" @click="createIt">创建文件夹</v-btn>
                 <form ref="form" style="display: none">
                   <input type="file" ref="fileInput" @change="fileUpload($event)" multiple="true">
                 </form>
@@ -92,7 +93,7 @@
                   <div class="type">
                     <v-icon medium :color="getColor(item)" class="mr-1">{{fileTypeFilter(item)}}</v-icon>
                   </div>
-                  <div class="headline text-overflow">{{item.name}}</div>
+                  <div class="headline text-overflow" @click="goToDir(item)">{{item.name}}</div>
                 </v-layout>
               </v-card-title>
               <v-card-text>
@@ -125,6 +126,11 @@
                 </v-btn>
               </v-card-actions>
             </v-card>
+          </v-flex>
+          <v-flex xs12>
+            <div class="text-xs-center">
+              <v-pagination :length="pageInfo.totalPage" v-model="pageStart" @input="nextPage"></v-pagination>
+            </div>
           </v-flex>
         </v-layout>
       </v-container>
@@ -211,8 +217,12 @@ export default {
       miniVariant: false,
       rightDrawer: false,
       title: 'Vuetify.js',
-      showSelectDir: false
+      showSelectDir: false,
+      pageStart: 1
     }
+  },
+  created () {
+    this.pageStart = Number(this.$route.query.page) || 1
   },
   watch: {
     message (msg) {
@@ -220,6 +230,15 @@ export default {
     },
     uploadMsg (msg) {
       Message[msg.type](msg.message)
+    },
+    async '$route' (to, from) {
+      // react to route changes...
+      await this.page({
+        orderBy: this.pageInfo.orderBy,
+        path: to.params.path || '',
+        page: to.query.page || 1,
+        pageSize: this.pageInfo.pageSize
+      })
     }
   },
   computed: {
@@ -304,11 +323,45 @@ export default {
         destPath: opts.path
       })
     },
+    goToDir (item) {
+      // 先完成功能再说
+      if (item.mime === 'application/x-directory') {
+        this.$router.push('/home/' + encodeURIComponent(item.path))
+      }
+    },
+    nextPage (page) {
+      this.$router.push('/home/' + encodeURIComponent(this.pageInfo.info.path) + '?page=' + page)
+      // this.$router.push({
+      //   path: '/home/',
+      //   params: {
+      //     path: encodeURIComponent(this.pageInfo.info.path)
+      //   },
+      //   query: {
+      //     page: page
+      //   }
+      // })
+    },
     create () {
       this.createDirectory({
         name: Math.random().toString(16),
         path: this.pageInfo.info.path
       })
+    },
+    async createIt () {
+      let res = await this.$prompt('', {
+        buttonTrueText: '确定',
+        buttonFalseText: '取消',
+        color: 'primary',
+        icon: 'info',
+        title: '提示',
+        property: '$prompt'
+      })
+      if (res) {
+        this.createDirectory({
+          name: res,
+          path: this.pageInfo.info.path
+        })
+      }
     },
     fileTypeFilter (data) {
       if (data.mime === 'application/x-directory') {
