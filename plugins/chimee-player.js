@@ -3,6 +3,7 @@ import Vue from 'vue'
 import randomId from '@/utils/randomid.js'
 import pluginPlaySeek from '@/plugins/chimee-plugin-player-seek'
 import LocalStore from '@/utils/store'
+import isMobile from '@/utils/isMobile'
 
 let videoPlayList = {
   length: 0
@@ -20,7 +21,7 @@ ChimeePlayer.install(pluginPlaySeek)
 
 function isNativeSupported () {
   let video = document.createElement('video')
-  return video.canPlayType && (video.canPlayType('application/x-mpegURL') || video.canPlayType('application/vnd.apple.mpegURL'))
+  return isMobile(navigator.userAgent) || (video.canPlayType && (video.canPlayType('application/x-mpegURL') || video.canPlayType('application/vnd.apple.mpegURL')))
 }
 
 const hlsIsSupported = isNativeSupported()
@@ -47,6 +48,21 @@ Vue.directive('player', {
     el.appendChild(dom)
     el.$dom = dom
     let list = getClarities(binding.value.video)
+    let pluginChildren = {
+      play: {},
+      progressTime: {},
+      progressBar: {},
+      volume: {},
+      screen: {},
+      clarity: {
+        list: list,
+        width: '2em'
+      }
+    }
+
+    if (isMobile(navigator.userAgent)) {
+      delete pluginChildren.volume
+    }
     if (list.length) {
       Vue.nextTick(() => {
         el.$player = new ChimeePlayer({
@@ -59,16 +75,7 @@ Vue.directive('player', {
             pluginPlaySeek.name,
             {
               name: 'chimeeControl',
-              children: {
-                play: {},
-                progressTime: {},
-                progressBar: {},
-                volume: {},
-                screen: {},
-                clarity: {
-                  list: list
-                }
-              }
+              children: pluginChildren
             }
           ]
         })

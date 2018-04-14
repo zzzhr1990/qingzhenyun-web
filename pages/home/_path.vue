@@ -93,7 +93,7 @@
                   <div class="type">
                     <v-icon medium :color="getColor(item)" class="mr-1">{{fileTypeFilter(item)}}</v-icon>
                   </div>
-                  <div class="headline text-overflow" @click="goToDir(item)">{{item.name}}</div>
+                  <div class="headline text-overflow" @click="preview(item)">{{item.name}}</div>
                 </v-layout>
               </v-card-title>
               <v-card-text>
@@ -180,6 +180,23 @@
       <span>&copy; 2017</span>
     </v-footer>
     <SelectDir ref="selectDir" @ok="selectedDir"></SelectDir>
+    <!-- show picture -->
+    <v-dialog
+      v-model="previewImage.dialog"
+      fullscreen
+      transition="dialog-bottom-transition"
+      :overlay="false"
+      scrollable
+    >
+      <v-card>
+        <v-toolbar card dark color="primary">
+          <v-btn icon @click="closePreviewDialog" dark>
+            <v-icon>close</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <v-card-media :src="previewImage.url" height="100%" contain></v-card-media>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
@@ -231,6 +248,9 @@ export default {
     uploadMsg (msg) {
       Message[msg.type](msg.message)
     },
+    previewMsg (msg) {
+      Message[msg.type](msg.message)
+    },
     async '$route' (to, from) {
       // react to route changes...
       await this.page({
@@ -257,6 +277,10 @@ export default {
     ...mapState('upload', [
       'uploadList',
       'uploadMsg'
+    ]),
+    ...mapState('preview', [
+      'previewMsg',
+      'previewImage'
     ])
   },
   filters: {
@@ -306,6 +330,9 @@ export default {
     ...mapActions('upload', [
       'upload'
     ]),
+    ...mapActions('preview', [
+      'image'
+    ]),
     fileUpload (evt) {
       let files = evt.target.files
       if (!files || !files[0]) {
@@ -323,11 +350,47 @@ export default {
         destPath: opts.path
       })
     },
-    goToDir (item) {
+    async preview (item) {
       // 先完成功能再说
       if (item.mime === 'application/x-directory') {
         this.$router.push('/home/' + encodeURIComponent(item.path))
       }
+
+      let type = item.preview / 100
+      // 如果是pdf
+      if (type === 3) {
+        this.$router.push('/p/' + encodeURIComponent(item.path) + '?type=pdf')
+      }
+
+      // 如果是图片
+      if (type === 4) {
+        this.image({
+          path: item.path
+        })
+      }
+
+      if (type === 1) {
+        this.$router.push('/v/' + encodeURIComponent(item.path) + '?type=video')
+      }
+
+      if (type === 2) {
+        this.$router.push('/v/' + encodeURIComponent(item.path) + '?type=audio')
+      }
+    },
+    closePreviewDialog () {
+      this.$store.commit('preview/DIALOG', false)
+    },
+    open (url) {
+      // let a = document.createElement('a')
+      // a.href = url
+      // a.target = '_blank'
+      // document.body.appendChild(a)
+      // a.click()
+      // setTimeout(() => {
+      //   document.body.removeChild(a)
+      // }, 10)
+      // chrome ban了所有非用户触发的跳转形式
+      window.open(url)
     },
     nextPage (page) {
       this.$router.push('/home/' + encodeURIComponent(this.pageInfo.info.path) + '?page=' + page)

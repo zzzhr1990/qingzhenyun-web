@@ -14,7 +14,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.0.0",
     "@nuxtjs/pwa": "^2.0.8",
-    "chimee-player": "https://github.com/geeeger/chimee-player/archive/1.4.6.tar.gz",
+    "chimee-player": "https://github.com/geeeger/chimee-player/archive/1.4.9.tar.gz",
     "es6-promise": "^4.2.4",
     "jwt-decode": "^2.2.0",
     "koa": "^2.3.0",

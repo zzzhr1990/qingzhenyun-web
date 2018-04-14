@@ -1,6 +1,7 @@
 import jwt from 'jwt-decode'
 import Cookies from 'universal-cookie'
 import Long from 'long'
+import isMobile from '@/utils/isMobile'
 
 function toNumber (low, high, unsigned) {
   return new Long(low, high, unsigned).toNumber()
@@ -15,10 +16,6 @@ function formatNumber (obj) {
     }
   }
   return obj
-}
-
-function isMobile (ua) {
-  return /IEMobile|Windows Phone|Lumia|iPhone|iP[oa]d|Android|BlackBerry|PlayBook|BB10|Mobile Safari|webOS|Mobile|Tablet|Opera Mini|\bCrMo\/|Opera Mobi|NetFront|PSP/i.test(ua)
 }
 
 export const state = () => ({

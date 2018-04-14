@@ -84,6 +84,10 @@ export const actions = {
     }
   },
 
+  logout ({ commit }, opts) {
+    commit('LOGOUT')
+  },
+
   async sendMsg ({ commit }, opts) {
     commit('REQUEST_SEND_MSG')
     try {
