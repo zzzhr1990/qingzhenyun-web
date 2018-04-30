@@ -31,8 +31,8 @@ module.exports = {
       { name: 'msapplication-TileColor', content: 'green' },
       { name: 'format-detection', content: 'telephone=no,email=no' },
       { name: 'copyright', content: 'Copyright ©6pan.cn 版权所有' },
-      { hid: 'keywords', name: 'keywords', content: '仓鼠云,6PAN.COM,云盘,云存储,云端备份,私人存储' },
-      { hid: 'description', name: 'description', content: '仓鼠云6PAN.COM-专业的私人云盘,在线存储,云端备份,为您提供安全、便捷、愉悦的云存储体验' }
+      { hid: 'keywords', name: 'keywords', content: '6PAN.COM,云盘,云存储,云端备份,私人存储' },
+      { hid: 'description', name: 'description', content: '6PAN.COM-专业的私人云盘,在线存储,云端备份,为您提供安全、便捷、愉悦的云存储体验' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -82,6 +82,7 @@ module.exports = {
     '@/plugins/services',
     '@/plugins/prompt',
     '@/plugins/axios',
+    '@/plugins/filters',
     { src: '@/plugins/chimee-player', ssr: false }
   ],
 
@@ -140,7 +141,8 @@ module.exports = {
       'axios',
       'universal-cookie',
       'chimee-player',
-      '@/assets/countryCode.json'
+      '@/assets/countryCode.json',
+      'defer-promise'
     ],
     maxChunkSize: 350000,
     babel: {
@@ -162,6 +164,7 @@ module.exports = {
     baseURL: 'https://6pan.cn',
     serverBaseURL: 'http://127.0.0.1:10240',
     HOST: '127.0.0.1',
-    PORT: 3000
+    PORT: 3000,
+    appName: '6盘'
   }
 }

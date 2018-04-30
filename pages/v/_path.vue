@@ -1,30 +1,40 @@
 <template>
-  <div class="video" v-if="result" v-player="result"></div>
+    <div class="video" v-if="result" v-player="result"></div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import Message from 'vuetify-toast'
+
 export default {
-  middleware: 'auth',
-  layout: 'v',
-  data () {
-    return {
-      result: null
+    middleware: 'auth',
+    layout: 'v',
+    data () {
+        return {
+            result: null
+        }
+    },
+    computed: {
+        ...mapState([
+            'isMobile'
+        ]),
+        ...mapState('preview', [
+            'previewMsg'
+        ])
+    },
+    watch: {
+        previewMsg (msg) {
+            Message[msg.type](msg.message)
+        }
+    },
+    async created () {
+        let result = await this.$store.dispatch('preview/' + this.$route.query.type, {
+            path: this.$route.params.path
+        })
+        if (result) {
+            this.result = result
+        }
     }
-  },
-  computed: {
-    ...mapState([
-      'isMobile'
-    ])
-  },
-  async created () {
-    let result = await this.$store.dispatch('preview/' + this.$route.query.type, {
-      path: this.$route.params.path
-    })
-    if (result) {
-      this.result = result
-    }
-  }
 }
 </script>
 

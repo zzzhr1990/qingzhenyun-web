@@ -26,3 +26,12 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.href-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.pointer {
+  cursor: pointer;
+}

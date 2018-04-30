@@ -1,5 +1,5 @@
 export default function ({ store, redirect }) {
-  if (store.state.login.user) {
-    return redirect('/home/')
-  }
+    if (store.state.login.user) {
+        return redirect('/home/')
+    }
 }
