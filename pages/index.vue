@@ -123,7 +123,7 @@
             <v-footer>
                 <v-layout row wrap align-center>
                     <v-flex xs12>
-                        <div class="white--text ml-3">{{footer}}</div>
+                        <div class="white--text ml-3" v-html="footer"></div>
                     </v-flex>
                 </v-layout>
             </v-footer>
@@ -142,7 +142,7 @@ export default {
             bg: al,
             logo: logo,
             appName: process.env.appName,
-            footer: `${process.env.appName} 版权所有`,
+            footer: `${process.env.appName} 版权所有 <a href="/docs/privacy" target="_blank">隐私协议</a>`,
             // app简单描述
             appSimpleDescribe: '6PAN.COM-专业的私人云盘,在线存储,云端备份,为您提供安全、便捷、愉悦的云存储体验',
             descripe: {

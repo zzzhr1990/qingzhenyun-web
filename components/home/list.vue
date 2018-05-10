@@ -20,9 +20,17 @@
                             :input-value="props.selected"
                         ></v-checkbox>
                     </td>
-                    <td @click="userOperation(props.item)" class="pointer">
-                        <v-icon :color="getColor(props.item)" class="mr-1">{{fileTypeFilter(props.item)}}</v-icon>
-                        <span>{{ props.item.name }}</span>
+                    <td @click="pcUserOperation(props.item)" class="pointer">
+                        <template v-if="canPreview(props.item)">
+                            <router-link :to="getRouterPath(props.item)" class="href-link" target="_blank">
+                                <v-icon :color="getColor(props.item)" class="mr-1">{{fileTypeFilter(props.item)}}</v-icon>
+                                <span>{{ props.item.name }}</span>
+                            </router-link>
+                        </template>
+                        <template v-else>
+                            <v-icon :color="getColor(props.item)" class="mr-1">{{fileTypeFilter(props.item)}}</v-icon>
+                            <span>{{ props.item.name }}</span>
+                        </template>
                     </td>
                     <td class="text-xs-right">{{ props.item.size | fileSizeFilter }}</td>
                     <td class="text-xs-right">{{ props.item.ctime | timeFilter }}</td>
@@ -50,6 +58,14 @@
 import { mapMutations } from 'vuex'
 import listMixins from './listMixins.js'
 import defer from 'defer-promise'
+const CanPreviewEnum = {
+    pdf: 3,
+    audio: 2,
+    video: 1,
+    1: 'pdf',
+    2: 'audio',
+    3: 'video'
+}
 export default {
     watch: {
         pageInfo () {
@@ -75,6 +91,40 @@ export default {
         ...mapMutations('selectdir', {
             setSelectDirDialogState: 'SET_STATE'
         }),
+
+        canPreview (item) {
+            if (item.preview < 100) {
+                return false
+            }
+            return Boolean(CanPreviewEnum[item.preview / 100])
+        },
+
+        getRouterPath (item) {
+            var type = item.preview / 100
+            if (type === CanPreviewEnum.pdf) {
+                return '/p/' + encodeURIComponent(item.path) + '?type=pdf'
+            }
+            if (type === CanPreviewEnum.audio) {
+                return '/v/' + encodeURIComponent(item.path) + '?type=audio'
+            }
+            if (type === CanPreviewEnum.video) {
+                return '/v/' + encodeURIComponent(item.path) + '?type=video'
+            }
+            return '/'
+        },
+
+        pcUserOperation (item) {
+            let type = item.preview / 100
+            this.tryOpenDir(item)
+            // 如果是图片
+            this.tryOpenImage(type, item)
+            // // 如果是视频
+            // this.tryOpenVideo(type, item)
+            // // 如果是音频
+            // this.tryOpenAudio(type, item)
+            // // 如果是pdf
+            // this.tryOpenPdf(type, item)
+        },
 
         /**
          * 移动方法，需要selectDir支持

@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <iframe width="100%" height="500" scrolling="no" :src="src"></iframe>
-    </div>
+    <iframe width="100%" height="500" scrolling="no" :src="src"></iframe>
 </template>
 
 <script>
@@ -12,7 +10,7 @@ import Message from 'vuetify-toast'
 
 export default {
     middleware: 'auth',
-    layout: 'v',
+    layout: 's1',
     data () {
         return {
             result: null

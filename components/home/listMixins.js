@@ -95,6 +95,7 @@ export default {
         tryOpenPdf (type, item) {
             if (type === 3) {
                 this.$router.push('/p/' + encodeURIComponent(item.path) + '?type=pdf')
+                // window.open('/p/' + encodeURIComponent(item.path) + '?type=pdf', '_blank')
             }
         },
 
@@ -125,14 +126,14 @@ export default {
         userOperation (item) {
             let type = item.preview / 100
             this.tryOpenDir(item)
-            // 如果是pdf
-            this.tryOpenPdf(type, item)
             // 如果是图片
             this.tryOpenImage(type, item)
             // 如果是视频
             this.tryOpenVideo(type, item)
             // 如果是音频
             this.tryOpenAudio(type, item)
+            // 如果是pdf
+            this.tryOpenPdf(type, item)
         },
 
         fileTypeFilter (data) {

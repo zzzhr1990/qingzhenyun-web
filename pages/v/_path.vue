@@ -8,7 +8,7 @@ import Message from 'vuetify-toast'
 
 export default {
     middleware: 'auth',
-    layout: 'v',
+    layout: 's1',
     data () {
         return {
             result: null

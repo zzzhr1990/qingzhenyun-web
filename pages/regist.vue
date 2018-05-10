@@ -74,6 +74,7 @@
             </v-stepper-content>
         </v-stepper>
         <v-card-actions>
+            <router-link to="/docs/agreement" target="_blank">软件许可及服务协议</router-link>
             <v-spacer></v-spacer>
             <v-btn flat color="blue lighten-3" small to="/login">已有账号？</v-btn>
         </v-card-actions>
@@ -85,7 +86,7 @@ import Message from 'vuetify-toast'
 import countryCode from '@/assets/countryCode.json'
 import { mapState, mapActions } from 'vuex'
 export default {
-    layout: 'toolbarback',
+    layout: 's1',
     head: {
         title: '账号注册'
     },
