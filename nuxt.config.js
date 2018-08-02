@@ -161,7 +161,7 @@ module.exports = {
     }
   },
   env: {
-    baseURL: 'https://6pan.cn',
+    baseURL: 'https://api.6pan.cn/',
     serverBaseURL: 'http://127.0.0.1:10240',
     HOST: '127.0.0.1',
     PORT: 3000,
