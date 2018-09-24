@@ -1,42 +1,63 @@
 <template>
-    <v-layout px-2>
-        <v-btn small @click="uploadIt" color="primary">
+    <v-layout class="qz-toolbar-layout">
+        <v-btn class="v-button-custom v-button-primary-custom qz-upload m-r-16" @click="uploadIt" depressed color="#2EC17C">
+            <i class="v-icon qz-icon qz-icon-upload"></i>
             <span>上传</span>
-            <v-icon right>file_upload</v-icon>
         </v-btn>
+
+        <v-dialog v-model="createDirDialog.show" width="464">
+            <v-btn slot="activator" class="v-button-custom qz-new-folder m-r-16" depressed>
+                <i class="v-icon qz-icon qz-icon-newdir"></i>
+                <span>新建文件夹</span>
+            </v-btn>
+            <v-card class="qz-dialog">
+                <v-card-title class="justify-center text-xs-center">
+                    创建文件夹
+                </v-card-title>
+
+                <v-text-field class="qz-dirname" v-model="createDirDialog.name" placeholder="请输入文件夹名称..." solo flat color="#2EC17C" hide-details @keyup.enter="createDir(createDirDialog.name); createDirDialog.reset()"></v-text-field>
+
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn class="qz-btn" depressed @click="createDirDialog.reset();">
+                        取 消
+                    </v-btn>
+                    <v-btn class="qz-btn qz-btn-primary" color="#2EC17C" depressed @click="createDir(createDirDialog.name); createDirDialog.reset();">
+                        确 认
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
         <form ref="form" style="display: none">
             <input type="file" ref="fileInput" @change="fileUpload($event)" multiple="true">
         </form>
-        <v-btn small v-show="showBtnGroup" @click="deleteAll" light>
-            <span>删除</span>
-            <v-icon right>delete</v-icon>
-        </v-btn>
-        <v-btn small v-show="showBtnGroup" @click="moveAll" light>
-            <span>移动</span>
-            <v-icon right>swap_horiz</v-icon>
-        </v-btn>
-        <v-btn small @click="createDir" light>
-            <span>新建文件夹</span>
-            <v-icon right>create_new_folder</v-icon>
-        </v-btn>
-        <v-spacer></v-spacer>
-        <v-menu offset-y>
-            <v-btn light slot="activator" small>
-                <span>排序</span>
-                <v-icon right>sort</v-icon>
+        <div class="v-button-group">
+            <v-btn class="v-button-custom" :disabled="selected.length != 1 || (selected[0] && selected[0].mime == 'application/x-directory')" depressed>
+                <i class="v-icon qz-icon qz-icon-download"></i>
+                <span>下载</span>
             </v-btn>
-            <v-list>
-                <v-list-tile @click="setPageOrder(orderBy.asc)" class="body-2">
-                    <v-list-tile-title>按上传时间正序排列</v-list-tile-title>
-                </v-list-tile>
-                <v-list-tile @click="setPageOrder(orderBy.desc)" class="body-2">
-                    <v-list-tile-title>按上传时间倒序排列</v-list-tile-title>
-                </v-list-tile>
-            </v-list>
-        </v-menu>
-        <v-btn small @click="togger" light>
-            <span>传输列表</span>
-            <v-icon right>view_module</v-icon>
+            <v-btn class="v-button-custom" :disabled="selected.length < 1" @click="deleteAll" depressed>
+                <i class="v-icon qz-icon qz-icon-delete"></i>
+                <span>删除</span>
+            </v-btn>
+            <v-btn class="v-button-custom" :disabled="selected.length < 1" depressed @click="copyAll">
+                <span>复制到</span>
+            </v-btn>
+            <v-btn class="v-button-custom" :disabled="selected.length != 1" depressed @click="renameIt(selected[0])">
+                <span>重命名</span>
+            </v-btn>
+            <v-btn class="v-button-custom" :disabled="selected.length < 1" @click="moveAll" depressed>
+                <span>移动到</span>
+            </v-btn>
+        </div>
+        <v-spacer></v-spacer>
+        <v-text-field disabled class="v-input-text-custom" placeholder="搜索您的文件" append-icon="search" solo flat width="224" color="#2EC17C" hide-details></v-text-field>
+        <v-btn class="v-button-custom v-icon-button-custom" depressed @click="toggleListType('list')" :input-value="listType == 'list'">
+            <i class="v-icon qz-icon qz-icon-list"></i>
+        </v-btn>
+        <v-btn class="v-button-custom v-icon-button-custom" depressed @click="toggleListType('thumb')" :input-value="listType == 'thumb'">
+            <i class="v-icon qz-icon qz-icon-thumb"></i>
         </v-btn>
     </v-layout>
 </template>
@@ -52,6 +73,15 @@ export default {
     ],
     data () {
         return {
+            createDirDialog: {
+                name: '',
+                show: false,
+                reset () {
+                    this.show = false
+                    this.name = ''
+                }
+            },
+            listType: 'list',
             orderBy: {
                 asc: -1,
                 desc: 1
@@ -78,22 +108,18 @@ export default {
         ...mapActions('files', [
             'refresh',
             'recycle',
-            'move'
+            'move',
+            'copy'
         ]),
 
-        setPageOrder (orderBy) {
-            if (orderBy === this.pageInfo.orderBy) {
-                return
-            }
-            this.setOrder(orderBy)
-            this.refresh({
-                orderBy: orderBy
-            })
+        toggleListType (listType) {
+            this.listType = listType
+            this.$emit('listTypeChange', listType)
         },
 
         deleteAll () {
             this.recycle({
-                path: this.selected,
+                path: this.selected.map(item => item.path),
                 recycle: 1
             })
         },
@@ -106,6 +132,7 @@ export default {
             let deferred = defer()
             this.setSelectDirDialogState({
                 show: true,
+                type: 'move',
                 payload: {
                     data: this.selected,
                     defer: deferred
@@ -113,9 +140,29 @@ export default {
             })
             deferred
                 .promise
-                .then(({path, payload}) => {
+                .then(({ path, payload }) => {
                     this.move({
-                        path: payload.data,
+                        path: payload.data.map(item => item.path),
+                        destPath: path
+                    })
+                })
+        },
+
+        copyAll () {
+            let deferred = defer()
+            this.setSelectDirDialogState({
+                show: true,
+                type: 'copy',
+                payload: {
+                    data: this.selected,
+                    defer: deferred
+                }
+            })
+            deferred
+                .promise
+                .then(({ path, payload }) => {
+                    this.copy({
+                        path: payload.data.map(item => item.path),
                         destPath: path
                     })
                 })
@@ -129,8 +176,16 @@ export default {
             addTask: 'ADD_TASK'
         }),
 
+        ...mapMutations('rightdrawer', {
+            showUploadList: 'SHOW'
+        }),
+
         uploadIt () {
             this.$refs.fileInput.click()
+        },
+
+        renameIt (item) {
+            this.$emit('rename', item)
         },
 
         fileUpload (evt) {
@@ -143,6 +198,7 @@ export default {
                 tasks: files
             })
             this.upload()
+            this.showUploadList()
             this.$refs.form.reset()
         }
     }

@@ -33,7 +33,10 @@ export const state = () => {
 // DONE: '上传完成',
 // CANCEL: '取消上传'
 export const actions = {
-    upload ({ state, dispatch }) {
+    upload ({
+        state,
+        dispatch
+    }) {
         const uploadingList = state.uploadList.filter((file) => {
             return file.isUploading() || file.isCalculating() || file.isPreparing()
         })
@@ -55,7 +58,11 @@ export const actions = {
 
     async token (store, file) {
         try {
-            const { data: { result } } = await this.app.$http.post('/v1/store/token', {
+            const {
+                data: {
+                    result
+                }
+            } = await this.app.$http.post('/v1/store/token', {
                 hash: file.sha1,
                 path: file.puid,
                 name: file.name,
@@ -68,11 +75,41 @@ export const actions = {
     },
 
     async getHash (store, file) {
-        const { sha1 } = await new WUFile(file).getHash()
+        const {
+            sha1
+        } = await new WUFile(file).getHash()
         return sha1
     },
 
-    async uploadPrepar ({ state, dispatch, commit }, file) {
+    async pause ({
+        state,
+        dispatch,
+        commit
+    }, file) {
+        if (file.isUploading()) {
+            commit('PAUSE_TASK', file)
+        }
+    },
+
+    async resume ({
+        state,
+        dispatch,
+        commit
+    }, file) {
+        if (file.isPaused()) {
+            commit('RESUME_TASK', file)
+            dispatch('uploadStart', {
+                file: file,
+                error: null
+            })
+        }
+    },
+
+    async uploadPrepar ({
+        state,
+        dispatch,
+        commit
+    }, file) {
         commit('CALCULATING', file)
         try {
             let hash = await dispatch('getHash', file)
@@ -119,7 +156,14 @@ export const actions = {
         })
     },
 
-    async uploadStart ({ state, dispatch, commit }, { file, error }) {
+    async uploadStart ({
+        state,
+        dispatch,
+        commit
+    }, {
+        file,
+        error
+    }) {
         if (file.isCancel()) {
             commit('UPLOAD_FAILED', {
                 file,
@@ -135,12 +179,17 @@ export const actions = {
             dispatch('upload')
             return
         }
+        if (file.isPaused()) {
+            return
+        }
+
         let fileServerInfo = file.getServerInfo()
         try {
-            let { data } = await axios.post(
+            let {
+                data
+            } = await axios.post(
                 fileServerInfo.url,
-                file.slice(fileServerInfo.chunk.startByte, fileServerInfo.chunk.endByte),
-                {
+                file.slice(fileServerInfo.chunk.startByte, fileServerInfo.chunk.endByte), {
                     headers: {
                         Authorization: fileServerInfo.Authorization,
                         UploadBatch: fileServerInfo.UploadBatch,
@@ -187,10 +236,11 @@ export const actions = {
 
         let creatServer = file.getCreatFileServerInfo()
         try {
-            let { data } = await axios.post(
+            let {
+                data
+            } = await axios.post(
                 creatServer.url,
-                creatServer.ctxList,
-                {
+                creatServer.ctxList, {
                     headers: {
                         Authorization: creatServer.Authorization,
                         UploadBatch: creatServer.UploadBatch,
@@ -221,22 +271,38 @@ export const actions = {
 }
 
 export const mutations = {
-    SET_TOKEN (state, { file, tokenInfo }) {
+    SET_TOKEN (state, {
+        file,
+        tokenInfo
+    }) {
         file.setToken(tokenInfo)
     },
-    SET_HASH (state, { file, hash }) {
+    SET_HASH (state, {
+        file,
+        hash
+    }) {
         file.setHash(hash)
     },
     TRY (state, file) {
         file.markTry()
     },
-    SET_POS (state, { file, index }) {
+    SET_POS (state, {
+        file,
+        index
+    }) {
         file.setPos(index)
     },
-    SET_CTX (state, { file, ctx, chunk }) {
+    SET_CTX (state, {
+        file,
+        ctx,
+        chunk
+    }) {
         file.setCtx(ctx, chunk)
     },
-    PROGRESSING (state, { file, loaded }) {
+    PROGRESSING (state, {
+        file,
+        loaded
+    }) {
         file.setProgress(loaded)
     },
     UPLOADING (state, file) {
@@ -248,14 +314,32 @@ export const mutations = {
     CALCULATING (state, file) {
         file.setStatus(WUFile.STATUS.CALCULATING)
     },
-    UPLOAD_FAILED (state, { file, error }) {
+    UPLOAD_FAILED (state, {
+        file,
+        error
+    }) {
         file.setStatus(WUFile.STATUS.FAILED)
         state.uploadMsg = {
             type: 'error',
             message: '上传' + file.name + '失败:' + getErrorMsg(error)
         }
     },
-    UPLOAD_DONE (state, { file, result }) {
+    UPLOAD_PAUSE (state, {
+        file,
+        result
+    }) {
+        file.setStatus(WUFile.STATUS.PAUSE)
+    },
+    UPLOAD_RESUME (state, {
+        file,
+        result
+    }) {
+        file.setStatus(WUFile.STATUS.UPLOADING)
+    },
+    UPLOAD_DONE (state, {
+        file,
+        result
+    }) {
         if (result) {
             file.setFileInfo(result)
         }
@@ -266,7 +350,12 @@ export const mutations = {
         }
     },
 
-    ADD_TASK (state, { tasks, path, override, onStatusChange }) {
+    ADD_TASK (state, {
+        tasks,
+        path,
+        override,
+        onStatusChange
+    }) {
         const tasksLen = tasks.length
         if (!tasksLen) {
             return
@@ -297,6 +386,24 @@ export const mutations = {
             if (state.uploadList[i] === task) {
                 state.uploadList[i].setStatus(WUFile.STATUS.CANCEL)
                 state.uploadList.splice(i, 1)
+                break
+            }
+        }
+    },
+
+    PAUSE_TASK (state, task) {
+        for (let i = 0, len = state.uploadList.length; i < len; i++) {
+            if (state.uploadList[i] === task) {
+                state.uploadList[i].setStatus(WUFile.STATUS.PAUSE)
+                break
+            }
+        }
+    },
+
+    RESUME_TASK (state, task) {
+        for (let i = 0, len = state.uploadList.length; i < len; i++) {
+            if (state.uploadList[i] === task) {
+                state.uploadList[i].setStatus(WUFile.STATUS.UPLOADING)
                 break
             }
         }

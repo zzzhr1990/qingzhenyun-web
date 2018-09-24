@@ -35,12 +35,19 @@ export const mutations = {
 }
 
 export const actions = {
-    nuxtServerInit ({ commit }, { req }) {
+    nuxtServerInit ({
+        commit
+    }, {
+        req
+    }) {
         const userAgent = process.server ? req.headers['user-agent'] : navigator.userAgent
         commit('SET_ISMOBI', isMobile(userAgent))
+
         let cookie = process.server ? new Cookies(req.headers.cookie) : new Cookies()
         let token = cookie.get('token')
+
         commit('SET_ORDER', cookie.get('orderBy'))
+
         if (token) {
             this.commit('login/SET_USER_INFO', formatNumber(jwt(token)))
             this.commit('login/SET_TOKEN', token)

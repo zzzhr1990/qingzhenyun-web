@@ -1,96 +1,90 @@
 <template>
-    <ChallengeWrap>
-        <v-stepper :value="step" vertical>
-            <v-stepper-step step="1" :complete="step > 1">
-                获取验证码
-                <small>获取验证码以进行密码修改</small>
-            </v-stepper-step>
+    <div id="sign-ipp">
+        <div class="logo"></div>
+        <h1>密码找回</h1>
+        <v-stepper :value="step">
+            <v-stepper-step step="1" :complete="step > 1"></v-stepper-step>
             <v-stepper-content step="1">
+                <h4>hi，请输入您注册的手机号</h4>
                 <v-form lazy-validation>
-                    <v-select
-                        item-text="country"
-                        item-value="code"
-                        :items="countryCode"
-                        label="国家/地区代码"
-                        return-object
-                        :hint="`${select.code}`"
-                        persistent-hint
-                        v-model="select"
-                    ></v-select>
-                    <v-text-field
-                        label="手机号"
-                        v-model="phone"
-                        :rules="phoneRules"
-                        required
-                    ></v-text-field>
-                    <v-text-field
-                        label="验证码"
-                        v-model="code"
-                        :rules="codeRules"
-                        maxlength="6"
-                        required
-                    ></v-text-field>
-                    <v-btn
-                        @click="getCode"
-                        :disabled="(msg.fetching || timer) && true"
-                        flat
-                    >{{buttonText}}</v-btn>
-                    <v-btn
-                        color="primary"
-                        @click="nextStep"
-                        :disabled="(!msg.phoneInfo || !code) && true"
-                    >下一步</v-btn>
+                    <!-- <v-select item-text="country" item-value="code" :items="countryCode" label="国家/地区代码" return-object :hint="`${select.code}`" persistent-hint v-model="select"></v-select> -->
+                    <div class="form-group">
+                        <div class="form-group-label">手机号</div>
+                        <v-text-field class="v-input-custom" v-model="phone" :rules="phoneRules" required solo hide-details color="#2EC17C" height="32"></v-text-field>
+                    </div>
+                    <v-container grid-list-md text-xs-center>
+                        <v-layout row wrap>
+                            <v-flex xs6>
+                                <div class="form-group">
+                                    <div class="form-group-label">验证码</div>
+                                    <v-text-field class="v-input-custom" v-model="code" :rules="codeRules" maxlength="6" required solo hide-details color="#2EC17C" height="32"></v-text-field>
+                                </div>
+                            </v-flex>
+                            <v-flex xs6 class="text-xs-right">
+                                <v-btn class="v-btn-code" @click="getCode" :disabled="(msg.fetching || timer) && true" block color="#2EC17C">{{buttonText}}</v-btn>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                    <div class="form-hint">
+                        <div v-if="phone && !/^[0-9]+$/.test(phone)">请输入合法的手机号</div>
+                        <div v-if="code && !/^\d{6}$/.test(code)">请输入正确的验证码</div>
+                    </div>
+
+                    <v-btn @click="nextStep" :disabled="(!msg.phoneInfo || !code)" block color="#2EC17C">下一步</v-btn>
                 </v-form>
             </v-stepper-content>
-            <v-stepper-step step="2" :complete="step > 2">
-                修改密码
-                <small>修改新密码</small>
-            </v-stepper-step>
+            <v-stepper-step step="2" :complete="step > 2"></v-stepper-step>
             <v-stepper-content step="2">
+                <h4>hi，请输入您的新密码</h4>
                 <v-form v-model="valid" ref="form" lazy-validation>
-                    <v-text-field
-                        label="输入新密码"
-                        v-model="newPsw"
-                        :rules="pswRules"
-                        required
-                    ></v-text-field>
-                    <v-text-field
-                        label="再次输入密码"
-                        v-model="password"
-                        :rules="passwordRules"
-                        required
-                    ></v-text-field>
-                    <v-btn
-                        color="primary"
-                        :loading="change.fetching"
-                        @click="changeWithPhone"
-                    >提交</v-btn>
-                    <v-btn
-                        @click="prevStep"
-                    >上一步</v-btn>
+                    <div class="form-group">
+                        <div class="form-group-label">新密码</div>
+                        <v-text-field class="v-input-custom" type="password" v-model="newPsw" :rules="pswRules" required solo hide-details color="#2EC17C" height="32"></v-text-field>
+                        <div class="v-form-group-hint" v-if="newPsw != ''">
+                            <div class="hint-row">
+                                <i class="material-icons hint-success" v-if="newPsw.length >=6 && newPsw.length <=14">check_circle</i>
+                                <i class="material-icons hint-fail" v-else>cancel</i>
+                                <div class="hint-text">长度为6-14个字符</div>
+                            </div>
+                            <div class="hint-row">
+                                <i class="material-icons hint-success" v-if="!/[\s\u1289]/.test(newPsw)">check_circle</i>
+                                <i class="material-icons hint-fail" v-else>cancel</i>
+                                <div class="hint-text">不允许有空格</div>
+                            </div>
+                            <div class="arrow-left"></div>
+                            <div class="arrow-left-outline"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group-label">确认密码</div>
+                        <v-text-field class="v-input-custom" type="password" v-model="password" :rules="passwordRules" required solo hide-details color="#2EC17C" height="32"></v-text-field>
+                    </div>
+                    <div class="form-hint">
+                        <div v-if="password && newPsw && password !== newPsw">两次密码不一致</div>
+                    </div>
+                    <v-btn :loading="change.fetching" :disabled="!valid" @click="changeWithPhone" block color="#2EC17C">完成</v-btn>
                 </v-form>
             </v-stepper-content>
         </v-stepper>
+    </div>
+    <!-- <ChallengeWrap>
+
         <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn flat color="blue lighten-3" small to="/login">已有账号？</v-btn>
         </v-card-actions>
-    </ChallengeWrap>
+    </ChallengeWrap> -->
 </template>
 
 <script>
+import md5 from 'md5'
 import Message from 'vuetify-toast'
 import countryCode from '@/assets/countryCode.json'
 import { mapState, mapActions } from 'vuex'
-import ChallengeWrap from '@/components/challenge/wrap'
 
 export default {
-    layout: 'simpleLayout',
     head: {
         title: '修改密码'
-    },
-    components: {
-        ChallengeWrap
     },
     data () {
         return {
@@ -116,7 +110,9 @@ export default {
             valid: true,
             newPsw: '',
             pswRules: [
-                v => !!v || '请输入新密码'
+                v => !!v || '请输入新密码',
+                v => (v.length >= 6 && v.length <= 14) || '长度为6-14个字符',
+                v => !/[\s\u1289]/.test(v) || '不允许有空格'
             ],
             password: '',
             passwordRules: [
@@ -161,7 +157,7 @@ export default {
             let done = await this.changeByMsg({
                 code: this.code,
                 phoneInfo: this.msg.phoneInfo,
-                newPassword: this.password
+                newPassword: md5(this.password)
             })
             if (done) {
                 Message['success']('修改密码成功，请登录！')
@@ -181,7 +177,7 @@ export default {
         getCode () {
             this.timer = setInterval(() => {
                 this.time--
-                this.buttonText = this.time + ''
+                this.buttonText = this.time + '秒后重新获取'
                 if (this.time < 0) {
                     this.clearTimer()
                 }

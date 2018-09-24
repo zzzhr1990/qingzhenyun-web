@@ -1,38 +1,24 @@
 <template>
-    <v-app dark>
-        <v-navigation-drawer
-            :clipped="clipped"
-            v-model="drawer"
-            fixed
-            app
-            dark
-        >
-            <v-toolbar flat class="transparent" dark>
-                <v-list class="pa-0 fullwidth">
-                    <v-list-tile avatar>
-                        <v-list-tile-content>
-                            <v-list-tile-title>{{user.name}}</v-list-tile-title>
-                            <v-list-tile-sub-title>{{user.lastLoginTime | timeFilter}}</v-list-tile-sub-title>
-                        </v-list-tile-content>
-                        <v-list-tile-action>
-                            <v-btn icon @click.stop="drawer = !drawer">
-                                <v-icon>chevron_left</v-icon>
-                            </v-btn>
-                        </v-list-tile-action>
-                    </v-list-tile>
-                </v-list>
+    <v-app id="qz-home">
+        <v-navigation-drawer class="v-navigation-drawer-custom" :clipped="clipped" v-model="drawer" fixed app width="250" mobile-break-point="-1">
+            <v-toolbar class="transparent qz-user" flat>
+                <div class="qz-user-avatar">
+                    <img />
+                </div>
+                <div class="qz-user-meta">
+                    <span class="qz-user-username">{{user.name}}</span>
+                    <v-progress-linear color="#2EC17C" height="4" :value="user.spaceUsed / user.spaceCapacity * 100"></v-progress-linear>
+                    <div>
+                        <span class="qz-user-amount">{{(user.spaceUsed/1024).toFixed(2)}}/{{(user.spaceCapacity/1024).toFixed(2)}}G</span>
+                        <span class="qz-user-amount-upgrade">扩展</span>
+                    </div>
+                </div>
             </v-toolbar>
             <v-divider></v-divider>
-            <v-list>
-                <v-list-tile
-                    router
-                    :to="item.to"
-                    :key="i"
-                    v-for="(item, i) in items"
-                    exact
-                >
+            <v-list class="qz-left">
+                <v-list-tile router :to="item.to" :key="i" v-for="(item, i) in items" exact>
                     <v-list-tile-action>
-                        <v-icon v-html="item.icon"></v-icon>
+                        <i class="v-icon qz-icon" :class="['qz-icon-'+item.icon]"></i>
                     </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title v-text="item.title"></v-list-tile-title>
@@ -40,21 +26,20 @@
                 </v-list-tile>
             </v-list>
         </v-navigation-drawer>
-        <v-toolbar fixed app :clipped-left="clipped" class="elevation-0" :extension-height="'160px'">
-            <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
-            <v-toolbar-title>
-                <router-link class="href-link white--text" to="/">{{appName}}</router-link>
+        <v-toolbar class="qz-top elevation-0" fixed app :clipped-left="clipped">
+            <v-toolbar-title :class="{'active': true}">
+                <router-link class="href-link" :class="{'active': true}" to="/">{{appName}}</router-link>
             </v-toolbar-title>
-            <v-layout slot="extension">
-                <slot name="extension"></slot>
-            </v-layout>
+            <v-toolbar-title>
+                <router-link class="href-link" to="/">----</router-link>
+            </v-toolbar-title>
+            <v-toolbar-title>
+                <router-link class="href-link" to="/">----</router-link>
+            </v-toolbar-title>
         </v-toolbar>
         <v-content>
             <slot></slot>
         </v-content>
-        <v-footer app dark>
-            <span>&copy; 2018</span>
-        </v-footer>
     </v-app>
 </template>
 
@@ -66,11 +51,9 @@ export default {
             clipped: false,
             drawer: null,
             items: [
-                { icon: 'dashboard', title: '全部文件', to: '/home/' },
-                { icon: 'system_update_alt', title: '离线下载', to: '/offline/' },
-                { icon: 'delete', title: '回收站', to: '/recycle/' },
-                { icon: 'edit', title: '修改密码', to: '/challenge/pwd' },
-                { icon: 'exit_to_app', title: '退出', to: '/logout' }
+                { icon: 'home', title: '全部文件', to: '/home/' },
+                { icon: 'offline', title: '离线下载', to: '/offline/' },
+                { icon: 'recycle', title: '垃圾箱', to: '/recycle/' }
             ],
             appName: process.env.appName
         }

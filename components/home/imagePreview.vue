@@ -1,19 +1,12 @@
 <template>
-    <v-dialog
-        :value="previewImage.dialog"
-        fullscreen
-        transition="dialog-bottom-transition"
-        :overlay="false"
-        scrollable
-        dense
-    >
+    <v-dialog :value="previewImage.dialog" fullscreen transition="dialog-bottom-transition" :overlay="false" scrollable dense>
         <v-card>
             <v-toolbar card>
                 <v-btn icon @click="dialogClose">
                     <v-icon>close</v-icon>
                 </v-btn>
             </v-toolbar>
-            <v-card-media :src="previewImage.url" height="100%" contain></v-card-media>
+            <v-responsive :src="previewImage.url" height="100%"></v-responsive>
         </v-card>
     </v-dialog>
 </template>

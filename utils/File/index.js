@@ -19,7 +19,8 @@ const STATUS = {
     CALCULATING: '计算中...',
     FAILED: '上传失败',
     DONE: '上传完成',
-    CANCEL: '取消上传'
+    CANCEL: '取消上传',
+    PAUSE: '暂停上传'
 }
 
 const UPLOADING_STATUS = {
@@ -29,7 +30,15 @@ const UPLOADING_STATUS = {
 }
 
 class File {
-    constructor ({file, blockSize, chunkSize, uuid, chunkRetry, override = false, onStatusChange}) {
+    constructor ({
+        file,
+        blockSize,
+        chunkSize,
+        uuid,
+        chunkRetry,
+        override = false,
+        onStatusChange
+    }) {
         this.file = file
         this.size = file.size || 0
         this.status = STATUS.PENDING
@@ -51,6 +60,11 @@ class File {
         this.ctx = {
             length: this.totalChunks
         }
+        this.lastProgress = {
+            time: null,
+            size: 0
+        }
+        this.bytesPreSecond = 0
         this.onStatusChange = onStatusChange || function () {}
         var ext = rExt.exec(file.name) ? RegExp.$1.toLowerCase() : ''
         this.lastModified = file.lastModified || (new Date()).getTime()
@@ -61,8 +75,8 @@ class File {
         this.ext = ext
         if (
             !file.type &&
-      this.ext &&
-      ~'jpg,jpeg,png,gif,bmp'.indexOf(this.ext)
+            this.ext &&
+            ~'jpg,jpeg,png,gif,bmp'.indexOf(this.ext)
         ) {
             this.type = 'image/' + (this.ext === 'jpg' ? 'jpeg' : this.ext)
         } else {
@@ -93,16 +107,21 @@ class File {
         this.ext = null
         this.type = null
         this.onStatusChange = null
+        this.lastProgress = null
+        this.bytesPreSecond = null
     }
 
     getChunkByIndex (pos) {
-    // block是个抽象结构，真正结构是chunk,pos代表chunkIndex
-    // 所以计算blockIndex应该以位置除以block容量获得
+        // block是个抽象结构，真正结构是chunk,pos代表chunkIndex
+        // 所以计算blockIndex应该以位置除以block容量获得
         let blockIndex = Math.floor(pos / this.blockCap)
         // 获取pos在block中的抽象位置
         let posInBlock = pos - blockIndex * this.blockCap
         // 获取block抽象结构的起始结束位置
-        let {blockStartByte, blockEndByte} = this.getBlock(blockIndex)
+        let {
+            blockStartByte,
+            blockEndByte
+        } = this.getBlock(blockIndex)
         // 获取chunk在文件中的起始byte
         let startByte = blockStartByte + posInBlock * this.chunkSize
         // 获取chunk在文件中的结束位置
@@ -177,7 +196,7 @@ class File {
     }
 
     getBlock (blockIndex, blockSize = this.blockSize) {
-    // 获取block抽象结构的起始结束位置
+        // 获取block抽象结构的起始结束位置
         let blockStartByte = blockIndex * blockSize
         let blockEndByte = blockStartByte + blockSize
         // 修正blockEnd
@@ -262,7 +281,19 @@ class File {
     }
 
     setProgress (byte) {
-        this.progress = ((this.pos * this.chunkSize + byte) / this.size) * 100
+        let now = new Date().getTime()
+        let bytesUploaded = this.pos * this.chunkSize + byte
+
+        if (this.lastProgress.time) {
+            this.bytesPreSecond = parseInt((bytesUploaded - this.lastProgress.size) / ((now - this.lastProgress.time) / 1000))
+        }
+
+        this.lastProgress = {
+            time: now,
+            size: bytesUploaded
+        }
+
+        this.progress = (bytesUploaded / this.size) * 100
     }
 
     isUploading () {
@@ -295,6 +326,10 @@ class File {
 
     isPreparing () {
         return this.status === File.STATUS.PREPARING
+    }
+
+    isPaused () {
+        return this.status === File.STATUS.PAUSE
     }
 
     resetTryout () {

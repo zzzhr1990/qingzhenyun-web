@@ -1,4 +1,7 @@
-import { mapState, mapActions } from 'vuex'
+import {
+    mapState,
+    mapActions
+} from 'vuex'
 import Message from 'vuetify-toast'
 export default {
     watch: {
@@ -25,10 +28,14 @@ export default {
          * 混入方法
          */
         ...mapActions('files', [
+            'get',
             'download',
             'rename',
             'move',
-            'recycle'
+            'copy',
+            'recycle',
+            'page',
+            'loadMore'
         ]),
 
         /**
@@ -37,7 +44,9 @@ export default {
          * @return {[type]}      [description]
          */
         async downloadIt (item) {
-            let result = await this.download({path: item.path})
+            let result = await this.get({
+                path: item.path
+            })
             if (result) {
                 this.openDownloadSource(result)
             }
@@ -50,7 +59,7 @@ export default {
          */
         openDownloadSource (result) {
             var a = document.createElement('a')
-            a.setAttribute('href', result.url)
+            a.setAttribute('href', result.downloadAddress)
             a.setAttribute('download', result.name)
             a.style.visibility = 'hidden'
             document.body.appendChild(a)
@@ -62,19 +71,11 @@ export default {
             }, 10)
         },
 
-        async editIt (item) {
-            let res = await this.$prompt('', {
-                buttonTrueText: '确定',
-                buttonFalseText: '取消',
-                color: 'primary',
-                icon: 'info',
-                title: '提示',
-                property: '$prompt'
-            })
-            if (res) {
+        async editIt (item, newlyName) {
+            if (newlyName) {
                 this.rename({
                     path: item.path,
-                    name: res
+                    name: newlyName
                 })
             }
         },
@@ -143,9 +144,21 @@ export default {
 
             const name = data.name
             if (/\.(pdf)$/i.test(name)) {
-                return 'picture_as_pdf'
+                return 'pdf'
             }
-            if (/\.(txt|html|htm|docx|doc|xml|js|hjson|geojson|yml|config|ini|yaml|vtt|vcard|uri|uris|urls|ttl|t|tr|roff|man|me|ms|styl|stylus|rtf|rtx|conf|list|text|md|markdown|less|jsx|jade|shtml|csv|css|coffee|litcoffee|ics|ifb|manifest|appcache)$/i.test(name)) {
+            if (/\.(txt)$/i.test(name)) {
+                return 'txt'
+            }
+            if (/\.(docx|doc)$/i.test(name)) {
+                return 'ms-word'
+            }
+            if (/\.(xlsx|xls)$/i.test(name)) {
+                return 'ms-excel'
+            }
+            if (/\.(pptx|ppt)$/i.test(name)) {
+                return 'ms-ppt'
+            }
+            if (/\.(html|htm|xml|js|hjson|geojson|yml|config|ini|yaml|vtt|vcard|uri|uris|urls|ttl|t|tr|roff|man|me|ms|styl|stylus|rtf|rtx|conf|list|text|md|markdown|less|jsx|jade|shtml|csv|css|coffee|litcoffee|ics|ifb|manifest|appcache)$/i.test(name)) {
                 return 'description'
             }
             if (/\.(jpe?g|png|bmp|gif|tiff|webp|apng|svg|fpx|svg|xbm|ico|heif)$/i.test(name)) {
@@ -158,40 +171,9 @@ export default {
                 return 'archive'
             }
             if (/\.(wav|mp3|wmv|ogg|ape|aac|flac|mka|m4a|au|mpc|alac|tta|midi|dff)$/i.test(name)) {
-                return 'music_video'
+                return 'music'
             }
-            return 'note'
-        },
-
-        getColor (item) {
-            let color = ''
-            switch (this.fileTypeFilter(item)) {
-            case 'folder':
-                color = 'orange darken-2'
-                break
-            case 'description':
-                color = 'blue darken-2'
-                break
-            case 'image':
-                color = 'light-green darken-2'
-                break
-            case 'movie':
-                color = 'blue-grey darken-2'
-                break
-            case 'archive':
-                color = 'amber darken-2'
-                break
-            case 'music_video':
-                color = 'light-blue darken-2'
-                break
-            case 'picture_as_pdf':
-                color = 'red lighten-1'
-                break
-            default:
-                color = 'grey lighten-5'
-                break
-            }
-            return color
+            return 'unknow'
         }
     }
 }

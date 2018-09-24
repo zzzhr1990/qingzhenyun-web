@@ -5,7 +5,15 @@ export const state = () => {
 }
 
 export const mutations = {
-    TOGGER (state) {
+    TOGGLE (state) {
         state.show = !state.show
+    },
+
+    SHOW (state) {
+        state.show = true
+    },
+
+    HIDE (state) {
+        state.show = false
     }
 }

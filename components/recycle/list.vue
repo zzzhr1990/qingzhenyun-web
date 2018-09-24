@@ -1,12 +1,7 @@
 <template>
     <v-flex xs12>
         <v-progress-linear v-show="fetching" :indeterminate="fetching" class="ma-0"></v-progress-linear>
-        <v-data-table
-            :items="pageInfo.list"
-            hide-headers
-            hide-actions
-            item-key="path"
-        >
+        <v-data-table :items="pageInfo.list" hide-headers hide-actions item-key="path">
             <template slot="items" slot-scope="props">
                 <td class="px-1">
                     <v-layout column>
@@ -57,7 +52,7 @@ export default {
 
             const name = data.name
             if (/\.(pdf)$/i.test(name)) {
-                return 'picture_as_pdf'
+                return 'pdf'
             }
             if (/\.(txt|html|htm|docx|doc|xml|js|hjson|geojson|yml|config|ini|yaml|vtt|vcard|uri|uris|urls|ttl|t|tr|roff|man|me|ms|styl|stylus|rtf|rtx|conf|list|text|md|markdown|less|jsx|jade|shtml|csv|css|coffee|litcoffee|ics|ifb|manifest|appcache)$/i.test(name)) {
                 return 'description'
@@ -98,7 +93,7 @@ export default {
             case 'music_video':
                 color = 'light-blue darken-2'
                 break
-            case 'picture_as_pdf':
+            case 'pdf':
                 color = 'red lighten-1'
                 break
             default:

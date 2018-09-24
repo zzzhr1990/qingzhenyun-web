@@ -18,7 +18,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import SelectDir from '@/components/SelectDir.vue'
+import SelectDir from '@/components/toolkit/selectFolder/index.vue'
 import HomeWrap from '@/components/Wrap.vue'
 import OfflineListHeader from '@/components/offline/listHeader.vue'
 import OfflineMobiListHeader from '@/components/offline/mobiListHeader.vue'
@@ -60,7 +60,7 @@ export default {
         ])
     },
     methods: {
-        toggerSelectList ({ payload: {type} }) {
+        toggerSelectList ({ payload: { type } }) {
             if (this.$refs.list) {
                 switch (type) {
                 case 'cancel':

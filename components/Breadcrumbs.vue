@@ -1,16 +1,18 @@
 <template>
-    <v-layout caption justify-space-between row>
-        <v-breadcrumbs divider="/">
-            <v-breadcrumbs-item
-                v-for="item in breadcrumbs"
-                :key="item.text"
-                :disabled="item.disabled"
-                :href="getHref(item)"
-            >
+    <v-layout class="qz-breadcrumbs" caption row v-show="breadcrumbs.length > 1">
+        <v-btn class="qz-breadcrumbs-back" flat color="#2EC17C" small v-show="breadcrumbs.length > 1" :to="back()" active-class="qz-breadcrumbs-back-active">返回上一级</v-btn>
+        <div class="qz-breadcrumbs-back-divider-icon" v-show="breadcrumbs.length > 1">|
+        </div>
+        <div class="qz-breadcrumbs-back-divider-prefix" v-show="breadcrumbs.length > 4">...</div>
+        <div class="qz-breadcrumbs-back-divider" v-show="breadcrumbs.length > 4">
+            <v-icon>chevron_right</v-icon>
+        </div>
+        <v-breadcrumbs>
+            <v-icon slot="divider">chevron_right</v-icon>
+            <v-breadcrumbs-item v-for="item in breadcrumbs.slice(-3)" :key="item.text" :disabled="item.disabled" :to="getHref(item)" exact>
                 {{ item.text }}
             </v-breadcrumbs-item>
         </v-breadcrumbs>
-        <v-btn flat color="gray" small v-show="breadcrumbs.length > 1" @click="back">上一页</v-btn>
     </v-layout>
 </template>
 
@@ -27,7 +29,7 @@ export default {
             return `/home/${encodeURIComponent(item.path)}`
         },
         back () {
-            this.$router.back(-1)
+            return this.getHref(this.breadcrumbs.slice(-2).shift())
         }
     }
 }

@@ -1,5 +1,8 @@
-
-import { mapActions, mapState, mapMutations } from 'vuex'
+import {
+    mapActions,
+    mapState,
+    mapMutations
+} from 'vuex'
 
 export default {
     computed: {
@@ -10,29 +13,21 @@ export default {
     methods: {
 
         ...mapMutations('rightdrawer', {
-            togger: 'TOGGER'
+            toggle: 'TOGGLE'
         }),
 
         ...mapActions('files', [
             'createDirectory'
         ]),
 
-        async createDir () {
-            let res = await this.$prompt('', {
-                buttonTrueText: '确定',
-                buttonFalseText: '取消',
-                color: 'orange',
-                icon: 'info',
-                title: '文件夹名',
-                property: '$prompt'
-            })
-            if (res) {
+        async createDir (name) {
+            if (name) {
                 let result = await this.createDirectory({
                     path: this.pageInfo.info.path,
-                    name: res
+                    name: name
                 })
                 if (result) {
-                    this.pageInfo.unshift(result)
+                    // this.pageInfo.unshift(result)
                 }
             }
         }
