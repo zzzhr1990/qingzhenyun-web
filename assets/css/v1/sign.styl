@@ -1,0 +1,240 @@
+@import './mixin'
+
+.v-select-offset
+    margin-top: 48px
+    margin-left: -1px;
+    -webkit-box-shadow: none
+    box-shadow: none
+    border: 1px solid #D9D9D9;
+    .v-list__tile
+        height: 24px 
+        line-height: 24px
+        font-size: 12px 
+        color: #404040
+        padding: 0 7px
+    .v-list-item-code
+        width: 77px
+        float: left
+
+
+#qz-sign
+    background-color: #5ae2b3
+    background: url('../bkg.png') repeat-x center
+
+    .logo
+        margin: 47px auto 80px auto
+        height: 160px
+        text-align: center
+        background: url('../logo.png') no-repeat center
+
+#qz-sign-in
+    width: 485px
+    height: 700px
+    margin: 100px auto 0 auto
+    background: #FFFFFF
+    box-shadow: 4px 2px 13px 0 rgba(0,0,0,0.50)
+    border-radius: 10px
+    overflow: hidden
+
+    .container
+        padding: 0
+
+    .v-input
+        width: 346.4px
+        margin: 0 auto
+        padding-top: 0
+
+        .v-text-field__slot
+            input
+                padding: 0 15px 15px 15px
+                max-height: inherit
+                font-size: 24px
+                color: #404040
+                
+
+        &.invisible-text input
+            color: rgba(0,0,0,0)
+            letter-spacing: 0.4px
+            &::selection
+                color: rgba(0,0,0,0)
+
+        .v-input__slot:before
+            border-color: #D8D8D8
+            background-color: #D8D8D8
+            height: 1.4px 
+
+    #password
+        margin: 15px auto 0
+
+    #qz-sign-in-extend
+        width: 346px
+        margin: 45px auto 0
+        .v-label, .v-btn
+            font-size: 18px
+            color: #919191
+        .v-btn
+            margin: -3px 0 0 0
+            padding: 0
+            height: 26px
+            line-height: 20px
+        .v-input--hide-details .v-input__slot
+            margin-bottom: 0
+
+    #qz-sign-in-submit
+        .v-btn
+            width: 346px
+            height: inherit
+            padding: 10px 0
+            margin: 75px auto 0
+            background: #2EC17C
+            border-radius: 5px
+            font-size: 24px;
+            color: #FFFFFF
+            position: relative
+            box-shadow: none
+            &:hover
+                -webkit-box-shadow: 0px 5px 5px -3px rgba(46, 193, 124,0.2), 0px 8px 10px 1px rgba(46, 193, 124,.14), 0px 3px 14px 2px rgba(46, 193, 124,0.12);
+                box-shadow: 0px 5px 5px -3px rgba(46, 193, 124,0.2), 0px 8px 10px 1px rgba(46, 193, 124,.14), 0px 3px 14px 2px rgba(46, 193, 124,0.12);
+
+#qz-sign-up
+    width: 1120px
+    margin: 100px auto 0 auto
+    background: #FFFFFF
+    -webkit-box-shadow: 4px 2px 13px 0 rgba(0,0,0,0.50)
+    box-shadow: 4px 2px 13px 0 rgba(0,0,0,0.50)
+    border-radius: 10px
+    overflow: hidden
+
+    .logo
+        margin-top: 44px
+        margin-bottom: 48px
+
+    .form
+        width: 328px
+        margin: 0 auto
+        .container
+            padding: 0
+            .layout .flex 
+                padding: 6px
+            .layout:only-child
+                margin: -6px
+        .v-input
+            font-size: 18px;
+            color: #5A5A5A;
+            input
+                color: #5A5A5A;
+        .outline-form-group
+            border: 1px solid #D9D9D9
+            margin-bottom: 16px
+            .v-select
+                float left
+                width: 100px
+            .v-input__slot
+                border: none !important
+                margin-bottom: 0 !important
+            .v-text-field:not(.v-select)
+                margin-left: 100px
+            .small-text .v-select__selections
+                font-size: 12px
+            .outline-line-v
+                margin-top: 16px
+                width: 2px
+                height: 25px
+                float: left
+                background: #D8D8D8
+        .outline-form-group:focus-within
+            border: 1px solid #2EC17C
+        .v-input-custom .v-input__slot
+            -webkit-box-shadow: none
+            box-shadow: none
+            border: 1px solid #D9D9D9
+            margin-bottom: 16px
+            &:focus-within
+                border: 1px solid #2EC17C
+        .v-btn-custom
+            -webkit-box-shadow: none
+            box-shadow: none
+            height: 56px
+            margin: 0
+            .v-btn__content
+                font-size: 18px
+            &:not(.v-btn--outline) .v-btn__content
+                color: #FFFFFF
+        .v-checkbox-custom
+            margin-bottom: 32px
+            .v-icon
+                color: #D9D9D9;
+            .v-label
+                line-height: 17px
+                font-size: 12px;
+                color: #5A5A5A;
+                a 
+                    font-size: 12px;
+                    color: #2EC17C
+                    text-decoration: none
+            &.error--text
+                color: #E53935
+                a 
+                    color: #E53935
+        .v-input--selection-controls
+            margin-top: 0
+        .v-container-last
+            margin-bottom: 54px
+
+    .v-form-group
+        position: relative
+
+.v-form-group-hint
+    position: absolute
+    left: 350px
+    top: 0
+    width 340px
+    border: 1px solid #E9E9E9;
+    background: #F7F7F7;
+
+    font-size: 12px;
+    line-height: 17px
+    color: #919191;
+    padding: 7px 9px 5px 0
+    .material-icons
+        float: left
+        font-size: 17px
+        margin: 0 10px 0 20px
+    .hint-text
+        margin-left: 47px
+    .hint-success
+        color: #2EC17C
+    .hint-fail
+        color: #E53935
+    .hint-row
+        margin-bottom: 8px
+    .hint-row:last-child()
+        margin-bottom: 0
+    .arrow-left, .arrow-left-outline
+        position: absolute;
+        left: -10px
+        top: 5px
+        width: 0; 
+        height: 0; 
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent; 
+        border-right:10px solid #E9E9E9
+    .arrow-left-outline
+        left: -9px
+        top: 6px
+        border-top: 9px solid transparent;
+        border-bottom: 9px solid transparent; 
+        border-right: 9px solid #F7F7F7
+            
+
+
+                        
+
+
+
+
+                    
+
+        
+
+
