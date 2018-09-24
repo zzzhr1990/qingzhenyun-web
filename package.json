@@ -22,8 +22,10 @@
     "long": "^4.0.0",
     "material-design-icons": "^3.0.1",
     "material-icons": "^0.2.0",
+    "md5": "^2.2.1",
     "nuxt": "^1.4.0",
     "universal-cookie": "^2.1.2",
+    "vue-infinite-scroll": "^2.0.2",
     "vuetify": "^1.0.16",
     "vuetify-toast": "^0.1.0"
   },
