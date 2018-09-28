@@ -57,7 +57,7 @@
                                     <v-progress-linear color="#2EC17C" height="8" :value="user.spaceUsed / user.spaceCapacity * 100"></v-progress-linear>
                                 </v-flex>
                                 <v-flex class="qz-space-text">
-                                    <span>{{(user.spaceUsed/1024 || 0).toFixed(0)}}/{{(user.spaceCapacity || 0/1024).toFixed(0) }}G</span>
+                                    <span>{{(user.spaceUsed/1024/1024/1024 || 0).toFixed(1)}}/{{((user.spaceCapacity || 0)/1024).toFixed(1) }}G</span>
                                 </v-flex>
                             </v-layout>
                         </v-flex>
@@ -183,6 +183,9 @@ export default {
         cancelChangePassword () {
             this.changePassword.showEditor = false
         },
+        ...mapActions('login', {
+            refreshUser: 'refresh'
+        }),
         ...mapActions('pwd', {
             changePasswordRequest: 'change'
         }),
@@ -200,6 +203,10 @@ export default {
             }
         }
 
+    },
+
+    mounted () {
+        this.refreshUser()
     }
 }
 </script>

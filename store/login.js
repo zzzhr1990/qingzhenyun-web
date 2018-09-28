@@ -91,6 +91,25 @@ export const actions = {
         }
     },
 
+    async refresh ({
+        commit
+    }, opts) {
+        commit('REQUEST_LOGIN')
+        try {
+            const {
+                data: {
+                    result,
+                    token
+                }
+            } = await this.app.$http.post('/v1/user/info', opts)
+            commit('SET_USER_INFO', result)
+            commit('SET_TOKEN', token)
+            return true
+        } catch (e) {
+            commit('LOGIN_FAILED', getErrorMsg(e))
+        }
+    },
+
     async logout ({
         commit
     }) {

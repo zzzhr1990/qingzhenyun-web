@@ -45,14 +45,7 @@
                             </template>
 
                             <template v-else>
-                                <template v-if="canPreview(props.item)">
-                                    <router-link :to="getRouterPath(props.item)" class="href-link qz-filename" :title="props.item.name" target="_blank">
-                                        {{ props.item.name }}
-                                    </router-link>
-                                </template>
-                                <template v-else>
-                                    <div class="qz-filename" :title="props.item.name">{{ props.item.name}}</div>
-                                </template>
+                                <div @click="preview(props.item)" class="qz-filename" :title="props.item.name">{{ props.item.name}}</div>
                             </template>
 
                             <v-layout class="qz-td-file-btn-group" :class="{'qz-active ': props.show_menu}" align-center align-content-center justify-end @click.stop>
@@ -87,7 +80,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 import listMixins from './listMixins.js'
 import defer from 'defer-promise'
 const CanPreviewEnum = {
@@ -177,6 +170,10 @@ export default {
 
         ...mapMutations('selectdir', {
             setSelectDirDialogState: 'SET_STATE'
+        }),
+
+        ...mapActions('preview', {
+            preview: 'preview'
         }),
 
         canPreview (item) {

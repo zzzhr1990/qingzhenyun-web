@@ -39,5 +39,23 @@ export default {
             200: 'cloud_done',
             '-1': 'cloud_off'
         }[status] || 'cloud_queue'
+    },
+    MMSS (s) {
+        var t = '00:00'
+        if (s > -1) {
+            var min = Math.floor(s / 60)
+            var sec = Math.floor(s % 60)
+            if (min < 10) {
+                t = '0'
+            } else {
+                t = ''
+            }
+            t += min + ':'
+            if (sec < 10) {
+                t += '0'
+            }
+            t += sec
+        }
+        return t
     }
 }

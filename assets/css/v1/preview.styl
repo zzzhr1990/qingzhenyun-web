@@ -1,0 +1,56 @@
+.qz-preview-image-toolbar
+    //...
+.qz-preview-image
+    max-height: calc(100% - 64px);
+    padding: 24px
+    overflow: auto
+    .qz-layout
+        max-width: 100%
+
+.qz-preview-video
+    height: 720px
+    .v-toolbar
+        z-index: 1
+        background-color: rgba(0,0,0,0.50);
+        .v-toolbar__title
+            font-size: 20px;
+            color: #FFFFFF;
+        .v-icon
+            font-size: 32px
+    .qz-preview-layout
+        .qz-video
+            position: absolute
+            width: 100%
+            height: 100%
+            top: 0
+            left: 0
+            object-fit: cover
+        .qz-preview-progress, .qz-preview-controller
+            width: 100%
+        .qz-preview-progress
+            z-index: 2
+            min-height: 24px
+            max-height: 24px
+        .qz-preview-controller
+            z-index: 1
+            min-height: 48px
+            max-height: 48px
+            background-color: rgba(0,0,0,0.50)
+        .qz-player-btn 
+            margin: 0
+            min-width: 0
+            height: 48px 
+            .v-btn__content
+                font-size: 16px;
+                color: #FFFFFF;
+        .qz-player-play
+            padding: 0 20px 0 21px
+            &.qz-player-paused
+                padding: 0 17px 0 24px
+        .qz-player-progress-text
+            margin-left: 2px
+            height: 48px 
+            line-height: 48px
+            font-size: 14px;
+            color: #FFFFFF;
+                

@@ -135,6 +135,9 @@ export const actions = {
                 commit('UPLOAD_DONE', {
                     file: file
                 })
+                commit('files/ADD_FILE', tokenInfo, {
+                    root: true
+                })
                 dispatch('upload')
                 return
             }
@@ -254,10 +257,13 @@ export const actions = {
             if (data.hash !== file.sha1) {
                 throw new Error('文件hash校验失败!')
             }
-            // file.setFileInfo(JSON.parse(createFileResult.response).result)
+            let uploadResult = JSON.parse(data.response).result
             commit('UPLOAD_DONE', {
                 file: file,
-                result: JSON.parse(data.response).result
+                result: uploadResult
+            })
+            commit('files/ADD_FILE', uploadResult, {
+                root: true
             })
             dispatch('upload')
         } catch (e) {

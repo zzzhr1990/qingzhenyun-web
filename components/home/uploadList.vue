@@ -15,7 +15,7 @@
 
             <v-toolbar-title slot="extension">{{uploadList.filter(e => e.isDone() ).length }}个文件传输完成</v-toolbar-title>
         </v-toolbar>
-        <v-list class="qz-list">
+        <v-list class="qz-list" height="320">
             <template v-for="(item, index) in uploadList">
                 <v-list-tile avatar :key="item.batch">
                     <v-progress-linear v-if="item.isUploading() || item.isPaused()" v-model="item.progress" color="#E8F5E9"></v-progress-linear>

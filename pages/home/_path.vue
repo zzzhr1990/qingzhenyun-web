@@ -11,7 +11,7 @@
         <HomeList @selectInput="selectedInput" ref="list"></HomeList>
         <SelectDir></SelectDir>
         <UploadList></UploadList>
-        <ImagePreview></ImagePreview>
+        <Preview></Preview>
     </HomeWrap>
 </template>
 
@@ -25,7 +25,7 @@ import HomeList from '@/components/home/list.vue'
 import UploadList from '@/components/home/uploadList.vue'
 import HomeCtlHeader from '@/components/home/topHeader.vue'
 import HomeListHeader from '@/components/home/listHeader.vue'
-import ImagePreview from '@/components/home/imagePreview.vue'
+import Preview from '@/components/home/preview/index.vue'
 export default {
     middleware: 'auth',
     // async asyncData ({ store, params, query }) {
@@ -47,7 +47,7 @@ export default {
         UploadList,
         HomeCtlHeader,
         HomeListHeader,
-        ImagePreview
+        Preview
     },
     watch: {
         // react to route changes...
@@ -77,6 +77,9 @@ export default {
         ])
     },
     methods: {
+        ...mapActions('login', {
+            refreshUser: 'refresh'
+        }),
         ...mapActions('files', [
             'page'
         ]),
@@ -131,6 +134,10 @@ export default {
             this.upload()
             this.$refs.form.reset()
         }
+    },
+
+    mounted () {
+        this.refreshUser()
     }
 }
 </script>

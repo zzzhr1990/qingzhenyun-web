@@ -35,8 +35,9 @@ export const mutations = {
 }
 
 export const actions = {
-    nuxtServerInit ({
-        commit
+    async nuxtServerInit ({
+        commit,
+        dispatch
     }, {
         req
     }) {

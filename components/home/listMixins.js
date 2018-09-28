@@ -29,6 +29,7 @@ export default {
          */
         ...mapActions('files', [
             'get',
+            'getPreviewImage',
             'download',
             'rename',
             'move',

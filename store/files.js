@@ -79,7 +79,6 @@ export const mutations = {
     },
     ADD_FILE (state, result) {
         state.fetching = false
-
         let parentPath = result.path.split('/').slice(0, -1).join('/') || '/'
         if (state.pageInfo.info.path !== parentPath) {
             return false
@@ -289,6 +288,23 @@ export const actions = {
                     result
                 }
             } = await this.app.$http.post('/v1/files/get', opts)
+            commit('RESPONSE_SUCCESS')
+            return result
+        } catch (e) {
+            commit('RESPONSE_FAILED', getErrorMsg(e))
+        }
+    },
+
+    async getPreviewImage ({
+        commit
+    }, opts) {
+        commit('REQUEST')
+        try {
+            const {
+                data: {
+                    result
+                }
+            } = await this.app.$http.post('/v1/preview/image', opts)
             commit('RESPONSE_SUCCESS')
             return result
         } catch (e) {

@@ -9,7 +9,7 @@
                     <span class="qz-user-username">{{user.name}}</span>
                     <v-progress-linear color="#2EC17C" height="4" :value="user.spaceUsed / user.spaceCapacity * 100"></v-progress-linear>
                     <div>
-                        <span class="qz-user-amount">{{(user.spaceUsed/1024).toFixed(2)}}/{{(user.spaceCapacity/1024).toFixed(2)}}G</span>
+                        <span class="qz-user-amount">{{(user.spaceUsed/1024/1024/1024).toFixed(2)}}/{{(user.spaceCapacity/1024).toFixed(2)}}G</span>
                         <span class="qz-user-amount-upgrade">扩展</span>
                     </div>
                 </div>
