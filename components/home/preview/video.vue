@@ -13,7 +13,7 @@
             <video class="qz-video" ref="video" object-fit="contain" @pause="onPause" @play="onPlay" @timeupdate="onTimeupdate" @durationchange="onDurationchange"></video>
             <v-spacer></v-spacer>
             <v-flex class="qz-preview-progress" v-if="video">
-
+                <v-slider v-model="currentTime" :min="0" :max="duration" :step="0.1" thumb-label @change="changeTime($event)" hide-details></v-slider>
             </v-flex>
             <v-flex class="qz-preview-controller" v-if="video">
                 <v-layout class="qz-preview-controller-layout" align-center justify-start row fill-height>
@@ -182,6 +182,9 @@ export default {
         updateTime () {
             this.duration = this.video.duration
             this.currentTime = this.video.currentTime
+        },
+        changeTime (time) {
+            this.video.currentTime = time
         },
         toMMSS (num) {
             return (new Date()).clearTime()
