@@ -1,17 +1,14 @@
 <template>
     <HomeWrap>
-        <v-layout slot="extension" wrap row>
+        <v-layout wrap row>
             <v-flex xs12>
-                <TopHeader v-if="!isMobile"></TopHeader>
-                <MobiTopHeader v-if="isMobile"></MobiTopHeader>
+                <TopHeader></TopHeader>
             </v-flex>
             <v-flex xs12>
-                <OfflineListHeader v-if="!isMobile"></OfflineListHeader>
-                <OfflineMobiListHeader v-if="isMobile"></OfflineMobiListHeader>
+                <OfflineListHeader></OfflineListHeader>
             </v-flex>
         </v-layout>
-        <OfflineList v-if="!isMobile"></OfflineList>
-        <OfflineMobiList v-if="isMobile"></OfflineMobiList>
+        <OfflineList></OfflineList>
         <SelectDir></SelectDir>
     </HomeWrap>
 </template>
