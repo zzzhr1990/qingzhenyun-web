@@ -1,3 +1,5 @@
+.qz-preview-dialog
+    background-color: rgba(0, 0, 0, .618)
 .qz-preview-image-toolbar
     //...
 .qz-preview-image
@@ -8,9 +10,15 @@
         max-width: 100%
 
 .qz-preview-video
+    min-width: 1280px !important
+    max-width: 1280px
+    min-height: 720px !important
+    max-height: 720px
     height: 720px
+    &.hide-controller
+        cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjbQg61aAAAADUlEQVQYV2P4//8/IwAI/QL/+TZZdwAAAABJRU5ErkJggg=='), none
     .v-toolbar
-        z-index: 1
+        z-index: 10
         background-color: rgba(0,0,0,0.50);
         .v-toolbar__title
             font-size: 20px;
@@ -18,6 +26,7 @@
         .v-icon
             font-size: 32px
     .qz-preview-layout
+        z-index: 10
         .qz-video
             position: absolute
             width: 100%
@@ -27,12 +36,41 @@
             object-fit: cover
         .qz-preview-progress, .qz-preview-controller
             width: 100%
+            position: relative
         .qz-preview-progress
-            z-index: 1
-            min-height: 24px
-            max-height: 24px
+            z-index: 2
+            min-height: 5px
+            max-height: 5px
+            background: rgba(0,0,0,0.26);
             .v-input--slider
                 margin: 0
+                position: absolute
+                bottom: 0
+                left: 0
+                width: 100%
+            .v-input__slot
+                height: 5px !important
+            .v-slider__track__container, .v-slider__track, .v-slider__track-fill
+                height: 5px
+            .v-slider__thumb
+                opacity: 0
+            .v-slider__track
+                display: none
+            &:hover
+                min-height: 8px
+                max-height: 8px
+                .v-slider__track__container, .v-slider__track, .v-slider__track-fill
+                    height: 8px
+                .v-input__slot
+                    height: 8px !important
+                .v-slider__thumb
+                    opacity: 1
+                    border: 8px solid #FFF !important
+                    transform: translateY(-50%) scale(1) !important
+            .qz-preview-progress-buffered
+                opacity: .4
+                .v-slider__thumb-container, .v-slider__track
+                    display: none
         .qz-preview-controller
             z-index: 1
             min-height: 48px
@@ -55,4 +93,123 @@
             line-height: 48px
             font-size: 14px;
             color: #FFFFFF;
-                
+    .qz-preview-status
+        z-index: 1
+        width: 100%
+        position: absolute
+        top: 0
+        left: 0
+        color: #FFF
+        .qz-preview-status-icon
+            max-height: 80px
+            min-width: 80px;
+            .v-icon
+                color: #fff 
+                font-size: 72px
+        .qz-preview-status-title, .qz-preview-status-text
+            max-height: 24px
+        .qz-preview-status-text
+            font-size: 12px 
+            color: #666
+
+.qz-player-volume-menu
+    box-shadow: none
+    background: rgba(0,0,0,0.50)
+    min-height: 185px
+    .qz-player-volume-fill .qz-player-volume-fill-volume
+        height: 8px
+        width: 50%
+        background: #37ECBA
+
+    input[type="range"], .qz-player-volume-fill
+        position: absolute
+        top: 12px
+        left: 0
+        height: 8px;
+        width: 163px;
+        transform-origin: 90px 75px;
+        transform: rotate(-90deg);
+
+    input[type=range] 
+        -webkit-appearance none
+    input[type=range]:focus 
+        outline none
+        &::-webkit-slider-runnable-track 
+            background rgba(255, 255, 255, 0.4)
+        &::-ms-fill-lower 
+            background rgba(255, 255, 255, 0.4)
+        &::-ms-fill-upper 
+            background rgba(255, 255, 255, 0.4)
+    input[type=range]::-webkit-slider-runnable-track 
+        width 100%
+        height 8px
+        cursor pointer
+        box-shadow 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0)
+        background rgba(255, 255, 255, 0.4)
+        border-radius 1.3px
+        border 0.2px solid rgba(1, 1, 1, 0)
+    input[type=range]::-webkit-slider-thumb 
+        box-shadow 2px 2px 4px rgba(0, 0, 0, 0.4), 0px 0px 2px rgba(13, 13, 13, 0.4)
+        border 0px solid rgba(0, 0, 0, 0)
+        height 16px
+        width 16px
+        border-radius 16px
+        background #ffffff
+        cursor pointer
+        -webkit-appearance none
+        margin-top -4.2px
+    input[type=range]::-moz-range-track 
+        width 100%
+        height 8px
+        cursor pointer
+        box-shadow 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0)
+        background rgba(255, 255, 255, 0.4)
+        border-radius 1.3px
+        border 0.2px solid rgba(1, 1, 1, 0)
+    input[type=range]::-moz-range-thumb 
+        box-shadow 2px 2px 4px rgba(0, 0, 0, 0.4), 0px 0px 2px rgba(13, 13, 13, 0.4)
+        border 0px solid rgba(0, 0, 0, 0)
+        height 16px
+        width 16px
+        border-radius 16px
+        background #ffffff
+        cursor pointer
+    input[type=range]::-ms-track 
+        width 100%
+        height 8px
+        cursor pointer
+        background transparent
+        border-color transparent
+        color transparent
+    input[type=range]::-ms-fill-lower 
+        background rgba(240, 240, 240, 0.4)
+        border 0.2px solid rgba(1, 1, 1, 0)
+        border-radius 2.6px
+        box-shadow 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0)
+    input[type=range]::-ms-fill-upper 
+        background rgba(255, 255, 255, 0.4)
+        border 0.2px solid rgba(1, 1, 1, 0)
+        border-radius 2.6px
+        box-shadow 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0)
+    input[type=range]::-ms-thumb 
+        box-shadow 2px 2px 4px rgba(0, 0, 0, 0.4), 0px 0px 2px rgba(13, 13, 13, 0.4)
+        border 0px solid rgba(0, 0, 0, 0)
+        height 16px
+        width 16px
+        border-radius 16px
+        background #ffffff
+        cursor pointer
+        height 8px
+
+.qz-player-quality-menu
+    .v-list
+        width: 120px
+        background: rgba(34,34,34,0.50);
+        color: #FFFFFF;
+        .v-list__tile__title
+            font-size: 16px;
+            text-align: center
+        .v-list__tile:hover
+            background: rgba(34,34,34,0.80);
+        .qz-active  .v-list__tile__title
+            color: #2EC17C;

@@ -1,6 +1,8 @@
 <template>
-    <v-dialog :value="dialog" lazy transition="dialog-bottom-transition" max-height="100%" :width="dialogWidth()" persistent dense>
-        <component ref="dialogComponent" v-if="components" v-bind:is="components"></component>
+    <v-dialog content-class="qz-preview-dialog" :value="dialog" lazy transition="dialog-bottom-transition" max-height="100%" :width="dialogWidth()" fullscreen persistent dense>
+        <v-layout align-center justify-center fill-height>
+            <component ref="dialogComponent" v-if="components" v-bind:is="components"></component>
+        </v-layout>
     </v-dialog>
 </template>
 
