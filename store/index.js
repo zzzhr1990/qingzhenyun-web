@@ -35,16 +35,19 @@ export const mutations = {
 }
 
 export const actions = {
-    async nuxtServerInit ({
-        commit,
-        dispatch
-    }, {
-        req
-    }) {
-        const userAgent = process.server ? req.headers['user-agent'] : navigator.userAgent
+    async nuxtServerInit ({ commit, dispatch }, { req }) {
+        if (!req) {
+            return false
+        }
+
+        const userAgent = process.server
+            ? req.headers['user-agent']
+            : navigator.userAgent
         commit('SET_ISMOBI', isMobile(userAgent))
 
-        let cookie = process.server ? new Cookies(req.headers.cookie) : new Cookies()
+        let cookie = process.server
+            ? new Cookies(req.headers.cookie)
+            : new Cookies()
         let token = cookie.get('token')
 
         commit('SET_ORDER', cookie.get('orderBy'))
