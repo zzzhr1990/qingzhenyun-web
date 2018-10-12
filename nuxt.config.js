@@ -17,7 +17,8 @@ module.exports = {
             xmlns: 'http://www.w3.org/1999/xhtml',
             lang: 'zh'
         },
-        meta: [{
+        meta: [
+            {
                 charset: 'utf-8'
             },
             {
@@ -76,10 +77,12 @@ module.exports = {
             {
                 hid: 'description',
                 name: 'description',
-                content: '6PAN.COM-专业的私人云盘,在线存储,云端备份,为您提供安全、便捷、愉悦的云存储体验'
+                content:
+                    '6PAN.COM-专业的私人云盘,在线存储,云端备份,为您提供安全、便捷、愉悦的云存储体验'
             }
         ],
-        link: [{
+        link: [
+            {
                 rel: 'icon',
                 type: 'image/x-icon',
                 href: '/favicon.ico'
@@ -90,9 +93,11 @@ module.exports = {
                 href: '/humans.txt'
             }
         ],
-        noscript: [{
-            innerHTML: '本网站需要javascript支持，请开启'
-        }]
+        noscript: [
+            {
+                innerHTML: '本网站需要javascript支持，请开启'
+            }
+        ]
     },
 
     manifest: {
@@ -102,7 +107,8 @@ module.exports = {
         theme_color: 'green',
         display: 'standalone',
         background_color: '#fff',
-        description: '仓鼠云6PAN.COM-专业的私人云盘,在线存储,云端备份,为您提供安全、便捷、愉悦的云存储体验',
+        description:
+            '仓鼠云6PAN.COM-专业的私人云盘,在线存储,云端备份,为您提供安全、便捷、愉悦的云存储体验',
         lang: 'zh'
     },
 
@@ -151,7 +157,26 @@ module.exports = {
      ** Nuxt.js modules
      */
     modules: [
-        '@nuxtjs/pwa'
+        '@nuxtjs/pwa',
+        [
+            'nuxt-i18n',
+            {
+                defaultLocale: 'zh-CN',
+                locales: [
+                    {
+                        code: 'en-US',
+                        file: 'en-US.js'
+                    },
+                    {
+                        code: 'zh-CN',
+                        file: 'zh-CN.js'
+                    }
+                ],
+                lazy: true,
+                langDir: 'lang/',
+                seo: false
+            }
+        ]
     ],
 
     /*
@@ -162,11 +187,7 @@ module.exports = {
         /*
          ** You can extend webpack config here
          */
-        extend(config, {
-            isDev,
-            isClient,
-            isServer
-        }) {
+        extend(config, { isDev, isClient, isServer }) {
             // if (!isDev) {
             //   const vueLoader = webpackConfig.module.rules.find(loader => loader.loader === 'vue-loader')
             //   if (vueLoader) {
@@ -213,7 +234,8 @@ module.exports = {
         babel: {
             presets: [
                 [
-                    'env', {
+                    'env',
+                    {
                         // modules: false,
                         targets: {
                             browsers: ['> 1%', 'last 2 versions', 'not ie <= 8']

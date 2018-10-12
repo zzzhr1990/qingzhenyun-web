@@ -26,6 +26,7 @@
     "md5": "^2.2.1",
     "mediaelement": "^4.2.9",
     "nuxt": "^1.4.0",
+    "nuxt-i18n": "^5.4.3",
     "universal-cookie": "^2.1.2",
     "vue-infinite-scroll": "^2.0.2",
     "vuetify": "^1.0.16",
