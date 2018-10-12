@@ -159,36 +159,36 @@ export default {
                     },
                     {
                         symbol: 'flash_on',
-                        title: 'Fast development',
-                        content: 'Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.'
+                        title: '安全稳定',
+                        content: '用户数据均采用高强度的RSA加密，一户一密钥；我们在国内有北京、苏州、武汉三个数据中心，国外有印度德里、俄罗斯莫斯科两个数据中心，构成3+2的异地容灾体系，韩国数据中心也正在准备中。数据层面我们使用“双写双离线”的方式，采用异地多副本保障用户数据安全。'
                     },
                     {
                         symbol: 'build',
-                        title: 'Completely Open Sourced',
-                        content: 'Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.'
+                        title: '完全开源',
+                        content: '我们完全开放客户端、APP、以及服务端的源代码，以及提供完善的API文档。如果您在安全方面有所疑虑，您可以自行编译客户端运行。'
                     }
                 ]
             },
             company: {
                 info: {
-                    title: 'Company info',
-                    content: 'Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.'
+                    title: '关于我们',
+                    content: '欢众（北京）数据网络科技有限公司是一家专注于存储和传输解决方案的公司。公司有全国各地IDC机房，在北京地区以北京兆维机房和北京数北机房为基地，为企业和个人提供安全稳定的存储解决方案。'
                 },
                 contact: {
-                    title: 'Contact us',
-                    content: 'Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare.',
+                    title: '联系我们',
+                    content: '您可以通过电话或者邮件来联系我们',
                     info: [
                         {
                             symbol: 'phone',
-                            content: '+8618888888888'
+                            content: '010-82611960 (请在工作时间拨打)'
                         },
                         {
                             symbol: 'place',
-                            content: 'China'
+                            content: '中国,北京市,海淀区,中关村,天创科技大厦1107B'
                         },
                         {
                             symbol: 'email',
-                            content: 'admin@test.com'
+                            content: 'service@6pan.cn'
                         }
                     ]
                 }
