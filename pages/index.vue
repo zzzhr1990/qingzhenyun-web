@@ -114,51 +114,51 @@ export default {
             appName: process.env.appName,
             footer: `${process.env.appName} 版权所有 <a href="/docs/privacy" target="_blank">隐私协议</a>`,
             // app简单描述
-            appSimpleDescribe: '6PAN.COM-专业的私人云盘,在线存储,云端备份,为您提供安全、便捷、愉悦的云存储体验',
+            appSimpleDescribe: '极简、低成本的的私人云存储方案',
             descripe: {
-                headline: 'The best way to start developing',
-                subhead: 'Cras facilisis mi vitae nunc',
+                headline: '资源存储 | 云端下载 | 在线预览 | 云端同步 | 资源分享',
+                subhead: '做最良心的个人存储方案提供商',
                 posterHeadline: 'Web development has never been easier',
                 posterSubhead: 'Kick-start your application today',
                 descripeSections: [
                     {
                         // symbol是material icon
                         symbol: 'color_lens',
-                        title: 'Material Design',
-                        content: 'Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.'
+                        title: '跨平台',
+                        content: '我们支持Android、iOS、Windows、OSX等多个平台，同时在Web层面上给予尽量全面的功能支持。我们也提供详尽的API文档，您甚至可以自行开发客户端软件。'
                     },
                     {
                         symbol: 'flash_on',
-                        title: 'Fast development',
-                        content: 'Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.'
+                        title: '安全稳定',
+                        content: '用户数据均采用高强度的RSA加密，一户一密钥；我们在国内有北京、苏州、武汉三个数据中心，国外有印度德里、俄罗斯莫斯科两个数据中心，构成3+2的异地容灾体系，韩国数据中心也正在准备中。'
                     },
                     {
                         symbol: 'build',
-                        title: 'Completely Open Sourced',
-                        content: 'Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.'
+                        title: '完全开源',
+                        content: '我们完全开放客户端、APP、以及服务端的源代码，以及提供完善的API文档。如果您在安全方面有所疑虑，您可以自行编译客户端运行。我们也为您自行编译提供帮助。'
                     }
                 ]
             },
             company: {
                 info: {
-                    title: 'Company info',
-                    content: 'Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.'
+                    title: '关于我们',
+                    content: '欢众（北京）数据网络科技有限公司是一家专注于存储和传输解决方案的公司。公司有全国各地IDC机房，在北京地区以北京兆维机房和北京数北机房为基地，为企业和个人提供安全稳定的存储解决方案。'
                 },
                 contact: {
-                    title: 'Contact us',
-                    content: 'Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare.',
+                    title: '联系我们',
+                    content: '您可以通过电话或者邮件来联系我们',
                     info: [
                         {
                             symbol: 'phone',
-                            content: '+8618888888888'
+                            content: '010-82611960 (请在工作时间拨打)'
                         },
                         {
                             symbol: 'place',
-                            content: 'China'
+                            content: '北京市海淀区苏州街天创科技大厦1107B'
                         },
                         {
                             symbol: 'email',
-                            content: 'admin@test.com'
+                            content: 'service@6pan.cn'
                         }
                     ]
                 }
