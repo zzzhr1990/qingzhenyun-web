@@ -1,7 +1,7 @@
 import jwt from 'jwt-decode'
 import Cookies from 'universal-cookie'
 import Long from 'long'
-import isMobile from '@/utils/isMobile'
+// import isMobile from '@/utils/isMobile'
 
 function toNumber (low, high, unsigned) {
     return new Long(low, high, unsigned).toNumber()
@@ -39,17 +39,15 @@ export const actions = {
         if (!req) {
             return false
         }
-
-        const userAgent = process.server
-            ? req.headers['user-agent']
-            : navigator.userAgent
-        commit('SET_ISMOBI', isMobile(userAgent))
+        // const userAgent = process.server
+        //     ? req.headers['user-agent']
+        //     : navigator.userAgent
+        // commit('SET_ISMOBI', isMobile(userAgent))
 
         let cookie = process.server
             ? new Cookies(req.headers.cookie)
             : new Cookies()
         let token = cookie.get('token')
-
         commit('SET_ORDER', cookie.get('orderBy'))
 
         if (token) {

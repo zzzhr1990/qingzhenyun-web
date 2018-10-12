@@ -3,17 +3,17 @@
         <div class="logo"></div>
         <v-form v-model="valid" class="form">
             <div class="outline-form-group v-input-custom" :class="{'outline-form-group-focus': 1}">
-                <v-select class="v-input-group-item" :class="{'small-text': select.code.length > 3}" :item-text="itemCode" :items="countryCode" return-object :hint="`${select.code}`" persistent-hint height="56" v-model="select" solo :hide-details="true" :menu-props="{'closeOnClick':false,'closeOnContentClick':false,'openOnClick':false,'minWidth':328,'maxHeight':124, 'content-class': 'v-select-offset'}" color="#2EC17C">
+                <v-select class="v-input-group-item" :class="{'small-text': select.code.length > 3}" :item-text="itemCode" :items="countryCode" return-object :hint="`${select.code}`" persistent-hint height="48" v-model="select" solo :hide-details="true" :menu-props="{'closeOnClick':false,'closeOnContentClick':false,'openOnClick':false,'minWidth':328,'maxHeight':124, 'content-class': 'v-select-offset'}" color="#2EC17C">
                     <template slot="item" slot-scope="data">
                         <span class="v-list-item-code">+{{ data.item.code }}</span>
                         <span class="v-list-item-name">{{ data.item.country_zh }}</span>
                     </template>
                 </v-select>
                 <div class="outline-line-v"></div>
-                <v-text-field class="main-input v-input-group-item" placeholder="请输入您的手机号" v-model="phone" :rules="phoneRules" :hide-details="true" solo required :clearable="true" height="56" color="#2EC17C"></v-text-field>
+                <v-text-field class="main-input v-input-group-item" placeholder="请输入您的手机号" v-model="phone" :rules="phoneRules" :hide-details="true" solo required :clearable="true" height="48" color="#2EC17C"></v-text-field>
             </div>
             <div class="v-form-group">
-                <v-text-field class="v-input-custom" placeholder="请输入您的用户名" v-model="name" :rules="nameRules" :hide-details="true" solo :clearable="true" color="#2EC17C" height="56"></v-text-field>
+                <v-text-field class="v-input-custom" placeholder="请输入您的用户名" v-model="name" :rules="nameRules" :hide-details="true" solo :clearable="true" color="#2EC17C" height="48"></v-text-field>
                 <div class="v-form-group-hint" v-if="name != ''">
                     <div class="hint-row">
                         <i class="material-icons hint-success" v-if="/^[a-zA-Z0-9_\u4e00-\u9fa5]*$/.test(name) && !/^\d+$/.test(name)">check_circle</i>
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="v-form-group">
-                <v-text-field class="v-input-custom" placeholder="请输入您的密码" type="password" v-model="password" :rules="passwordRules" :hide-details="true" solo required :clearable="true" color="#2EC17C" height="56"></v-text-field>
+                <v-text-field class="v-input-custom" placeholder="请输入您的密码" type="password" v-model="password" :rules="passwordRules" :hide-details="true" solo required :clearable="true" color="#2EC17C" height="48"></v-text-field>
                 <div class="v-form-group-hint" v-if="password != ''">
                     <div class="hint-row">
                         <i class="material-icons hint-success" v-if="password.length >=6 && password.length <=14">check_circle</i>
@@ -48,10 +48,10 @@
             <v-container grid-list-md text-xs-center>
                 <v-layout row wrap>
                     <v-flex xs6>
-                        <v-text-field class="v-input-custom" label="验证码" v-model="code" :rules="codeRules" maxlength="6" required solo :hide-details="true" color="#2EC17C" height="56"></v-text-field>
+                        <v-text-field class="v-input-custom" placeholder="验证码" v-model="code" :rules="codeRules" maxlength="6" required solo :hide-details="true" color="#2EC17C" height="48"></v-text-field>
                     </v-flex>
                     <v-flex xs6 class="text-xs-right">
-                        <v-btn class="v-btn-custom" @click="getCode" :disabled="(msg.fetching || timer) && true" block color="#2EC17C" height="56">{{buttonText}}</v-btn>
+                        <v-btn class="v-btn-custom" @click="getCode" :disabled="(msg.fetching || timer) && true" block color="#2EC17C" height="48">{{buttonText}}</v-btn>
                     </v-flex>
                 </v-layout>
             </v-container>

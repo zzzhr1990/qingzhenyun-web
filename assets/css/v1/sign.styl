@@ -20,36 +20,38 @@
 #qz-sign
     background-color: #5ae2b3
     background: url('../bkg.png') repeat-x center
-
     .logo
-        margin: 47px auto 80px auto
-        height: 160px
-        text-align: center
         background: url('../logo.png') no-repeat center
+        background-size: 70px 100px
+        text-align: center
 
 #qz-sign-in
-    width: 485px
-    height: 700px
-    margin: 100px auto 0 auto
+    width: 368px
+    height: 486px
+    margin: 297px auto 0 auto
     background: #FFFFFF
     box-shadow: 4px 2px 13px 0 rgba(0,0,0,0.50)
     border-radius: 10px
     overflow: hidden
 
+    .logo
+        margin: 40px auto 40px auto
+        height: 100px
+
     .container
         padding: 0
 
     .v-input
-        width: 346.4px
+        width: 320px
         margin: 0 auto
         padding-top: 0
 
         .v-text-field__slot
             input
-                padding: 0 15px 15px 15px
+                padding: 0 5px 5px 5px
                 max-height: inherit
-                font-size: 24px
-                color: #404040
+                font-size: 14px;
+                color: #404040;
                 
 
         &.invisible-text input
@@ -64,14 +66,18 @@
             height: 1.4px 
 
     #password
-        margin: 15px auto 0
+        margin: 25px auto 0
 
     #qz-sign-in-extend
-        width: 346px
-        margin: 45px auto 0
+        width: 304px
+        margin: 50px auto 0
+        .flex  
+            padding: 0
+        .row:nth-child(2)
+            margin-top: 18px
         .v-label, .v-btn
-            font-size: 18px
-            color: #919191
+            font-size: 14px;
+            color: #919191;
         .v-btn
             margin: -3px 0 0 0
             padding: 0
@@ -79,16 +85,19 @@
             line-height: 20px
         .v-input--hide-details .v-input__slot
             margin-bottom: 0
+        .v-input--selection-controls__input
+            .v-icon
+                color: #919191
 
     #qz-sign-in-submit
         .v-btn
-            width: 346px
-            height: inherit
-            padding: 10px 0
-            margin: 75px auto 0
+            width: 320px
+            height: 48px
+            padding: 0
+            margin: 43px auto 0
             background: #2EC17C
             border-radius: 5px
-            font-size: 24px;
+            font-size: 20px;
             color: #FFFFFF
             position: relative
             box-shadow: none
@@ -97,8 +106,8 @@
                 box-shadow: 0px 5px 5px -3px rgba(46, 193, 124,0.2), 0px 8px 10px 1px rgba(46, 193, 124,.14), 0px 3px 14px 2px rgba(46, 193, 124,0.12);
 
 #qz-sign-up
-    width: 1120px
-    margin: 100px auto 0 auto
+    width: 1116px
+    margin: 242px auto 0 auto
     background: #FFFFFF
     -webkit-box-shadow: 4px 2px 13px 0 rgba(0,0,0,0.50)
     box-shadow: 4px 2px 13px 0 rgba(0,0,0,0.50)
@@ -106,8 +115,8 @@
     overflow: hidden
 
     .logo
-        margin-top: 44px
-        margin-bottom: 48px
+        margin: 40px auto 40px auto
+        height: 100px
 
     .form
         width: 328px
@@ -119,7 +128,7 @@
             .layout:only-child
                 margin: -6px
         .v-input
-            font-size: 18px;
+            font-size: 14px;
             color: #5A5A5A;
             input
                 color: #5A5A5A;
@@ -137,9 +146,9 @@
             .small-text .v-select__selections
                 font-size: 12px
             .outline-line-v
-                margin-top: 16px
+                margin-top: 9px
                 width: 2px
-                height: 25px
+                height: 32px
                 float: left
                 background: #D8D8D8
         .outline-form-group:focus-within
@@ -154,14 +163,14 @@
         .v-btn-custom
             -webkit-box-shadow: none
             box-shadow: none
-            height: 56px
+            height: 48px
             margin: 0
             .v-btn__content
-                font-size: 18px
+                font-size: 14px
             &:not(.v-btn--outline) .v-btn__content
                 color: #FFFFFF
         .v-checkbox-custom
-            margin-bottom: 32px
+            margin-bottom: 25px
             .v-icon
                 color: #D9D9D9;
             .v-label
@@ -176,13 +185,18 @@
                 color: #E53935
                 a 
                     color: #E53935
+            .v-input__slot
+                margin-bottom: 0
         .v-input--selection-controls
             margin-top: 0
         .v-container-last
-            margin-bottom: 54px
+            margin-bottom: 40px
+            .v-btn__content
+                font-size: 20px;
 
     .v-form-group
         position: relative
+        
 
 .v-form-group-hint
     position: absolute

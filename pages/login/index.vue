@@ -6,7 +6,7 @@
             <v-container id="qz-sign-in-extend">
                 <v-layout row wrap>
                     <v-flex xs6>
-                        <v-checkbox label="记住密码" hide-details color="#2EC17C" disabled></v-checkbox>
+                        <v-checkbox label="记住帐号" v-model="rememberUsername" hide-details color="#2EC17C"></v-checkbox>
                     </v-flex>
                     <v-flex xs6 class="text-xs-right">
                         <v-btn small flat :nuxt="true" to="/challenge/ipp">忘记密码</v-btn>
@@ -14,7 +14,7 @@
                 </v-layout>
                 <v-layout row wrap>
                     <v-flex xs6>
-                        <v-checkbox label="自动登录" hide-details color="#2EC17C"></v-checkbox>
+                        <v-checkbox label="自动登录" v-model="rememberMe" hide-details color="#2EC17C"></v-checkbox>
                     </v-flex>
                     <v-flex xs6 class="text-xs-right">
                         <v-btn small flat :nuxt="true" to="/regist">注册账号</v-btn>
@@ -31,11 +31,12 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 import Message from 'vuetify-toast'
 import md5 from 'md5'
-import { mapState, mapActions } from 'vuex'
 import LoginWrap from '@/components/login/wrap.vue'
 import LoginFooter from '@/components/login/actions.vue'
+
 export default {
     layout: 'sign',
     head: {
@@ -50,7 +51,9 @@ export default {
             rules: [v => !!v || '必须填写！'],
             valid: true,
             value: '',
-            password: ''
+            password: '',
+            rememberUsername: false,
+            rememberMe: false
         }
     },
     computed: {
@@ -63,19 +66,31 @@ export default {
     },
     methods: {
         ...mapActions('login', [
-            'login'
+            'login',
+            'defaultValue'
         ]),
         async loginWithName () {
             let done = await this.login({
                 value: this.value,
                 password: md5(this.password),
-                countryCode: '86'
+                countryCode: '86',
+                rememberUsername: this.rememberUsername,
+                rememberMe: this.rememberMe
             })
             if (done) {
                 this.$nextTick(() => {
                     this.$router.push('/home/')
                 })
+            } else {
+                this.password = ''
             }
+        }
+    },
+    async mounted () {
+        let value = await this.defaultValue()
+        if (value) {
+            this.value = value
+            this.rememberUsername = true
         }
     }
 }

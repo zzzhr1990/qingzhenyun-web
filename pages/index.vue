@@ -7,48 +7,21 @@
         <v-content>
             <section>
                 <v-parallax :src="bg" height="600">
-                    <v-layout
-                        column
-                        align-center
-                        justify-center
-                        class="white--text"
-                    >
+                    <v-layout column align-center justify-center class="white--text">
                         <img :src="logo" alt="Vuetify.js" height="200">
                         <h1 class="white--text mb-2 display-1 text-xs-center">{{appName}}</h1>
                         <div class="subheading mb-3 text-xs-center">{{appSimpleDescribe}}</div>
                         <div>
-                            <v-btn
-                                class="blue lighten-2 mt-5"
-                                dark
-                                large
-                                to="/login"
-                                :nuxt="true"
-                            >用户登录</v-btn>
-                            <v-btn
-                                class="blue lighten-2 mt-5"
-                                large
-                                dark
-                                to="/regist"
-                                :nuxt="true"
-                            >用户注册</v-btn>
+                            <v-btn class="blue lighten-2 mt-5" dark large to="/login" :nuxt="true">用户登录</v-btn>
+                            <v-btn class="blue lighten-2 mt-5" large dark to="/regist" :nuxt="true">用户注册</v-btn>
                         </div>
-                        <v-btn
-                            flat
-                            to="/challenge/ipp"
-                            class="white--text"
-                            :nuxt="true"
-                        >忘记密码？</v-btn>
+                        <v-btn flat to="/challenge/ipp" class="white--text" :nuxt="true">忘记密码？</v-btn>
                     </v-layout>
                 </v-parallax>
             </section>
 
             <section>
-                <v-layout
-                    column
-                    wrap
-                    class="my-5"
-                    align-center
-                >
+                <v-layout column wrap class="my-5" align-center>
                     <v-flex xs12 sm4 class="my-3">
                         <div class="text-xs-center">
                             <h2 class="headline">{{descripe.headline}}</h2>
@@ -61,10 +34,7 @@
                                 <v-flex xs12 md4 v-for="(item, index) in descripe.descripeSections" :key="index">
                                     <v-card class="elevation-0 transparent">
                                         <v-card-text class="text-xs-center">
-                                                <v-icon
-                                                    x-large
-                                                    class="blue--text text--lighten-2"
-                                                >{{item.symbol}}</v-icon>
+                                            <v-icon x-large class="blue--text text--lighten-2">{{item.symbol}}</v-icon>
                                         </v-card-text>
                                         <v-card-title primary-title class="layout justify-center">
                                             <div class="headline text-xs-center">{{item.title}}</div>
