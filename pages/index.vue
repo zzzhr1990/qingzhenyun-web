@@ -184,7 +184,7 @@ export default {
                         },
                         {
                             symbol: 'place',
-                            content: '中国,北京市,海淀区,中关村,天创科技大厦1107B'
+                            content: '北京市海淀区苏州街天创科技大厦1107B'
                         },
                         {
                             symbol: 'email',
