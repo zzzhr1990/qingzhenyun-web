@@ -144,18 +144,18 @@ export default {
             appName: process.env.appName,
             footer: `${process.env.appName} 版权所有 <a href="/docs/privacy" target="_blank">隐私协议</a>`,
             // app简单描述
-            appSimpleDescribe: '6PAN.COM-专业的私人云盘,在线存储,云端备份,为您提供安全、便捷、愉悦的云存储体验',
+            appSimpleDescribe: '极简、低成本的的私人云存储方案',
             descripe: {
-                headline: 'The best way to start developing',
-                subhead: 'Cras facilisis mi vitae nunc',
+                headline: '资源存储 | 云端下载 | 在线预览 | 云端同步 | 资源分享',
+                subhead: '做最良心的个人存储方案提供商',
                 posterHeadline: 'Web development has never been easier',
                 posterSubhead: 'Kick-start your application today',
                 descripeSections: [
                     {
                         // symbol是material icon
                         symbol: 'color_lens',
-                        title: 'Material Design',
-                        content: 'Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.'
+                        title: '跨平台',
+                        content: '我们支持Android、iOS、Windows、OSX等多个平台，同时在Web层面上给予尽量全面的功能支持。我们也提供详尽的API文档，您甚至可以自行开发客户端软件。'
                     },
                     {
                         symbol: 'flash_on',
@@ -165,7 +165,7 @@ export default {
                     {
                         symbol: 'build',
                         title: '完全开源',
-                        content: '我们完全开放客户端、APP、以及服务端的源代码，以及提供完善的API文档。<br>如果您在安全方面有所疑虑，您可以自行编译客户端运行。<br>我们也为您自行编译提供帮助。'
+                        content: '我们完全开放客户端、APP、以及服务端的源代码，以及提供完善的API文档。如果您在安全方面有所疑虑，您可以自行编译客户端运行。我们也为您自行编译提供帮助。'
                     }
                 ]
             },
