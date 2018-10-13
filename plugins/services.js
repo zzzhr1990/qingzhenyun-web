@@ -41,7 +41,7 @@ export default ({ app, store, redirect }) => {
         }
         return response
     }, error => {
-        if (error.response.status === REQUIRE_AUTH) {
+        if (error.response && (error.response.status === REQUIRE_AUTH)) {
             store.commit('login/LOGOUT')
             redirect('/login')
         }
