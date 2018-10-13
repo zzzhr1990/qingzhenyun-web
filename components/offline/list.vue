@@ -14,7 +14,7 @@
                         <v-icon class="mr-1">{{ props.item.status | cloudStatusFilter }}</v-icon>
                         <span>{{ props.item.name }}</span>
                     </td>
-                    <td>{{ props.item.path || '根目录' }}</td>
+                    <td>{{ props.item.savePath || '根目录' }}</td>
                     <td>{{ props.item.progress }}%</td>
                     <td>{{ props.item.createTime | timeFilter }}</td>
                     <td class="justify-center layout px-0">
