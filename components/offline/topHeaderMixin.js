@@ -10,13 +10,7 @@ export default {
                 asc: -1,
                 desc: 1
             },
-            type: {
-                link: 20,
-                ed2k: 40,
-                magnet: 10,
-                bt: 0
-            },
-            btPath: ':TORRENT'
+            btPath: ':torrent'
         }
     },
     computed: {
@@ -34,8 +28,8 @@ export default {
             'refresh',
             'move',
             'start',
-            'parseMagnet',
-            'parseTorrent'
+            'parseTorrent',
+            'parseUrl'
         ]),
 
         setPageOrder (orderBy) {
@@ -53,69 +47,53 @@ export default {
         }),
 
         tryDownloadLink (url, res) {
-            if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('ftp://') || url.startsWith('sftp://') || url.startsWith('thunder://')) {
-                if (!this.isMobile) {
-                    let deferred = defer()
-                    this.setSelectDirDialogState({
-                        show: true,
-                        payload: {
-                            data: {
-                                url: res,
-                                type: this.type.link
-                            },
-                            defer: deferred
-                        }
-                    })
-                    deferred
-                        .promise
-                        .then(({path, payload}) => {
-                            this.start(Object.assign({}, payload.data, {
-                                savePath: path
-                            }))
-                        })
-                    return
-                }
-
-                this.start({
-                    savePath: '',
-                    url: res,
-                    type: this.type.link
+            this
+                .parseUrl({
+                    url: res
                 })
-            }
-        },
-
-        tryDownloadEd2k (url, res) {
-            if (url.startsWith('ed2k:')) {
-                alert('暂不支持电驴下载')
-            }
-        },
-
-        tryDownloadMagnet (url, res) {
-            if (url.startsWith('magnet:')) {
-                this
-                    .parseMagnet({
-                        url: res
-                    })
-                    .then((result) => {
-                        if (this.isMobile) {
-                            this.start({
-                                savePath: '',
-                                taskHash: result.taskHash,
-                                files: '*',
-                                type: this.type.magnet
+                .then((result) => {
+                    // 若files为空，下载所有文件
+                    if (!result.files) {
+                        let deferred = defer()
+                        this.setSelectDirDialogState({
+                            show: true,
+                            payload: {
+                                data: {
+                                    taskHash: result.taskHash,
+                                    copyFile: '*'
+                                },
+                                defer: deferred
+                            }
+                        })
+                        deferred
+                            .promise
+                            .then(({path, payload}) => {
+                                this.start(Object.assign({}, payload.data, {
+                                    savePath: path
+                                }))
                             })
-                            return
-                        }
+                        return
+                    }
 
-                        if (!result.files) {
+                    // files不为空的情况
+                    selectFileList({
+                        buttonTrueText: '确定',
+                        buttonFalseText: '取消',
+                        color: 'orange',
+                        title: '选择要下载的文件',
+                        items: result.files
+                    })
+                        .then((files) => {
+                            if (!files) {
+                                return
+                            }
                             let deferred = defer()
                             this.setSelectDirDialogState({
                                 show: true,
                                 payload: {
                                     data: {
                                         taskHash: result.taskHash,
-                                        files: '*',
-                                        type: this.type.magnet
+                                        copyFile: files
                                     },
                                     defer: deferred
                                 }
@@ -127,42 +105,8 @@ export default {
                                         savePath: path
                                     }))
                                 })
-                            return
-                        }
-
-                        selectFileList({
-                            buttonTrueText: '确定',
-                            buttonFalseText: '取消',
-                            color: 'orange',
-                            title: '选择要下载的文件',
-                            items: result.files
                         })
-                            .then((files) => {
-                                if (!files) {
-                                    return
-                                }
-                                let deferred = defer()
-                                this.setSelectDirDialogState({
-                                    show: true,
-                                    payload: {
-                                        data: {
-                                            taskHash: result.taskHash,
-                                            files: files,
-                                            type: this.type.magnet
-                                        },
-                                        defer: deferred
-                                    }
-                                })
-                                deferred
-                                    .promise
-                                    .then(({path, payload}) => {
-                                        this.start(Object.assign({}, payload.data, {
-                                            savePath: path
-                                        }))
-                                    })
-                            })
-                    })
-            }
+                })
         },
 
         tryDownloadTorrent () {
@@ -181,10 +125,7 @@ export default {
 
             if (res) {
                 let url = res.toLocaleLowerCase()
-
                 this.tryDownloadLink(url, res)
-                this.tryDownloadEd2k(url, res)
-                this.tryDownloadMagnet(url, res)
             }
         },
 
@@ -211,31 +152,20 @@ export default {
                 override: true,
                 onStatusChange: (file) => {
                     if (file.isDone()) {
-                        let fileInfo = file.getFileInfo()
+                        let uuid = file.getUuid()
                         this
                             .parseTorrent({
-                                path: fileInfo.path
+                                uuid: uuid
                             })
                             .then((result) => {
-                                if (this.isMobile) {
-                                    this.start({
-                                        savePath: '',
-                                        taskHash: result.taskHash,
-                                        files: '*',
-                                        type: this.type.bt
-                                    })
-                                    return
-                                }
-
-                                if (!result.files) {
+                                if (!result.files || result.files.length === 0) {
                                     let deferred = defer()
                                     this.setSelectDirDialogState({
                                         show: true,
                                         payload: {
                                             data: {
                                                 taskHash: result.taskHash,
-                                                files: '*',
-                                                type: this.type.bt
+                                                copyFile: '*'
                                             },
                                             defer: deferred
                                         }
@@ -268,8 +198,7 @@ export default {
                                             payload: {
                                                 data: {
                                                     taskHash: result.taskHash,
-                                                    files: files,
-                                                    type: this.type.bt
+                                                    copyFile: files
                                                 },
                                                 defer: deferred
                                             }

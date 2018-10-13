@@ -36,8 +36,8 @@
                                 :input-value="props.selected"
                             ></v-checkbox>
                         </td>
-                        <td>{{ props.item.name }}</td>
-                        <td>{{ props.item.length | fileSizeFilter }}</td>
+                        <td>{{ props.item.path }}</td>
+                        <td>{{ props.item.size | fileSizeFilter }}</td>
                     </tr>
                 </template>
             </v-data-table>

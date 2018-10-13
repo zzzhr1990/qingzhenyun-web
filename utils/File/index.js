@@ -365,6 +365,13 @@ class File {
         return null
     }
 
+    getUuid () {
+        if (this.isExisted()) {
+            return this.tokenInfo.uuid
+        }
+        return null
+    }
+
     getServerInfo () {
         const chunk = this.getChunk()
         let url = this.tokenInfo.uploadUrl

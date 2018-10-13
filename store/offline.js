@@ -64,6 +64,15 @@ export const actions = {
         }
     },
 
+    async parseUrl ({ commit }, opts) {
+        try {
+            const { data: { result } } = await this.app.$http.post('/v1/offline/parseUrl', opts)
+            return result
+        } catch (e) {
+            commit('RESPONSE_FAILED', getErrorMsg(e))
+        }
+    },
+
     async parseTorrent ({ commit }, opts) {
         try {
             const { data: { result } } = await this.app.$http.post('/v1/offline/parseTorrent', opts)
