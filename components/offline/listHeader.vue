@@ -8,7 +8,7 @@
                   :items="pageStates"
                   :value="pageInfo.page"
                   single-line
-                  auto
+                  menu-props="auto"
                   color="primary"
                   hide-details
                   dense

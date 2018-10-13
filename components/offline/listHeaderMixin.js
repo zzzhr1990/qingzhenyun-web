@@ -25,33 +25,25 @@ export default {
     },
     methods: {
         ...mapActions('offline', [
-            'refresh'
+            'refresh',
+            'page'
         ]),
         prevPage () {
-            this.$router.push({
-                path: '/offline/' + encodeURIComponent(this.pageInfo.info.path),
-                query: {
-                    page: this.pageInfo.page - 1
-                }
+            this.page({
+                page: this.pageInfo.page - 1
             })
         },
         nextPage () {
-            this.$router.push({
-                path: '/offline/' + encodeURIComponent(this.pageInfo.info.path),
-                query: {
-                    page: this.pageInfo.page + 1
-                }
+            this.page({
+                page: this.pageInfo.page + 1
             })
         },
         jumpToPage (page) {
             if (page === this.pageInfo.page) {
                 return
             }
-            this.$router.push({
-                path: '/offline/' + encodeURIComponent(this.pageInfo.info.path),
-                query: {
-                    page: page
-                }
+            this.page({
+                page: page
             })
         }
     }

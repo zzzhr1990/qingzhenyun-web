@@ -49,9 +49,6 @@ export default {
         }
     },
     computed: {
-        ...mapState([
-            'isMobile'
-        ]),
         ...mapState('offline', [
             'pageInfo'
         ])
